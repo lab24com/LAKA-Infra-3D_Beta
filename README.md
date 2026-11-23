@@ -86,9 +86,7 @@ Las sugerencias y los *pull requests* también son bienvenidos.
 
 ## Licencia
 
-[GPLv3](LICENSE) · © LAKA Soluciones Tecnológicas · Autor: Willian Tola · [laka.com.bo](https://laka.com.bo)
-
-Para implementación, soporte o desarrollo a medida: [laka.com.bo](https://laka.com.bo)
+[GPLv3](LICENSE) · © LAKA Soluciones Tecnológicas · Autor: Willian Tola 
 
 ---
 
