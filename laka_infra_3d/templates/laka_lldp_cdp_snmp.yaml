@@ -1,0 +1,68 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 5f3cb0ff3c3344cb99e669e5750a7dab
+      name: Templates/Network devices
+  templates:
+    - uuid: 7f1337e72eee49419b5d769dc366058f
+      template: 'LAKA LLDP CDP by SNMP'
+      name: 'LAKA LLDP CDP by SNMP'
+      description: |
+        LAKA Infra 3D – vecinos LLDP (IEEE 802.1AB, LLDP-MIB) y CDP (CISCO-CDP-MIB) por SNMP.
+        Dos ítems SNMP walk[] (Zabbix 6.4 o superior) que el widget LAKA Infra 3D compara con el cableado documentado:
+        conexiones confirmadas, cables documentados que no se ven y conexiones reales sin documentar.
+        Vincular a los switches, routers y firewalls de la sala (el equipo debe tener LLDP o CDP activo).
+        © LAKA Soluciones Tecnológicas · Autor: Willian Tola · Licencia GPLv3
+      vendor:
+        name: 'LAKA Soluciones Tecnológicas'
+        version: 7.0-1
+      groups:
+        - name: Templates/Network devices
+      items:
+        - uuid: 6b2d15ae629943c0897b9fa883d9bb09
+          name: 'LLDP: tabla de vecinos (walk)'
+          type: SNMP_AGENT
+          snmp_oid: 'walk[1.0.8802.1.1.2.1.3.7.1.3,1.0.8802.1.1.2.1.3.7.1.4,1.0.8802.1.1.2.1.4.1.1.5,1.0.8802.1.1.2.1.4.1.1.7,1.0.8802.1.1.2.1.4.1.1.8,1.0.8802.1.1.2.1.4.1.1.9]'
+          key: laka.lldp.walk
+          delay: 1h
+          history: 7d
+          value_type: TEXT
+          trends: '0'
+          description: |
+            LLDP-MIB: puerto local (lldpLocPortId, lldpLocPortDesc) y vecinos remotos (lldpRemChassisId, lldpRemPortId,
+            lldpRemPortDesc, lldpRemSysName). Salida de snmpwalk -On; la interpreta LAKA Infra 3D.
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          tags:
+            - tag: component
+              value: lldp
+            - tag: component
+              value: network
+        - uuid: 34cf863a57ad4dd5ba782eca3a63ed70
+          name: 'CDP: tabla de vecinos (walk)'
+          type: SNMP_AGENT
+          snmp_oid: 'walk[1.3.6.1.4.1.9.9.23.1.2.1.1.6,1.3.6.1.4.1.9.9.23.1.2.1.1.7,1.3.6.1.2.1.31.1.1.1.1]'
+          key: laka.cdp.walk
+          delay: 1h
+          history: 7d
+          value_type: TEXT
+          trends: '0'
+          description: |
+            CISCO-CDP-MIB: nombre (cdpCacheDeviceId) y puerto (cdpCacheDevicePort) de cada vecino, más ifName para
+            nombrar el puerto local. En equipos sin CDP queda sin datos (no es un error).
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 1d
+          tags:
+            - tag: component
+              value: cdp
+            - tag: component
+              value: network
+      tags:
+        - tag: class
+          value: network
+        - tag: target
+          value: lldp

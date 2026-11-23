@@ -1,0 +1,113 @@
+{
+	"manifest_version": 2.0,
+	"id": "laka_infra_3d",
+	"type": "widget",
+	"name": "LAKA Infra 3D",
+	"namespace": "LakaInfra3D",
+	"version": "1.0 Beta",
+	"author": "LAKA Soluciones Tecnológicas",
+	"description": "Data Center 3D: salas, filas, racks y equipos con su estado desde Zabbix.",
+	"url": "https://laka.com.bo",
+	"widget": {
+		"size": {
+			"width": 48,
+			"height": 10
+		},
+		"js_class": "CWidgetLakaInfra3D",
+		"refresh_rate": 60,
+		"out": [
+			{
+				"type": "_hostid"
+			},
+			{
+				"type": "_hostids"
+			}
+		]
+	},
+	"actions": {
+		"widget.laka_infra_3d.view": {
+			"class": "WidgetView"
+		},
+		"laka_infra_3d.room.history": {
+			"class": "RoomHistory",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.room.acl": {
+			"class": "RoomAcl",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.capacity.forecast": {
+			"class": "CapacityForecast",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.wo.save": {
+			"class": "WorkOrderSave",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.backup": {
+			"class": "BackupRun",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.layout.save": {
+			"class": "LayoutSave",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.hosts.search": {
+			"class": "HostSearch",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.device.detail": {
+			"class": "DeviceDetail",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.cable.save": {
+			"class": "CableSave",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.model.save": {
+			"class": "ModelSave",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.site.save": {
+			"class": "SiteSave",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.geo.country": {
+			"class": "GeoCountry",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.lldp.get": {
+			"class": "LldpGet",
+			"layout": "layout.json"
+		},
+		"laka_infra_3d.energy.get": {
+			"class": "EnergyGet",
+			"layout": "layout.json"
+		}
+	},
+	"assets": {
+		"css": [
+			"widget.css"
+		],
+		"js": [
+			"laka-three.js",
+			"scene.js",
+			"capacity.js",
+			"noc.js",
+			"cabling.js",
+			"rackview.js",
+			"devview.js",
+			"power.js",
+			"lldp.js",
+			"energy.js",
+			"qr.js",
+			"ops.js",
+			"report.js",
+			"sites.js",
+			"editor.js",
+			"editor-cabling.js",
+			"editor-admin.js",
+			"widget.js"
+		]
+	}
+}
