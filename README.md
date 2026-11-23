@@ -75,14 +75,7 @@ La ubicación que guardas en el editor tiene prioridad sobre los tags.
 
 ## Problemas y sugerencias
 
-Si encuentras un error, abre un *issue*. Incluye:
-
-- la versión de Zabbix;
-- la base de datos;
-- el navegador;
-- los pasos para reproducir el error.
-
-Las sugerencias y los *pull requests* también son bienvenidos.
+Si encuentras un error puedes reportarlo para corregir
 
 ## Licencia
 
