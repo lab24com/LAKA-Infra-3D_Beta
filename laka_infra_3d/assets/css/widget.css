@@ -1,0 +1,5299 @@
+/*
+ * LAKA Infra 3D – gemelo digital de data center para Zabbix 7.0 – 8.0
+ * © LAKA Soluciones Tecnológicas
+ * Autor: Willian Tola
+ * Licencia GPLv3
+ *
+ * Estilos del widget. Todo va dentro de .laka3d para no afectar al resto de Zabbix.
+ * Tema claro por defecto; los temas oscuros de Zabbix cambian las variables.
+ */
+
+.laka3d {
+	/* Tema claro de Zabbix (blue-theme, blue-classic-theme) */
+	--l3-bg: rgba(255, 255, 255, 0.95);
+	--l3-bg-solid: #ffffff;
+	--l3-bg-soft: #ebeef0;
+	--l3-border: #dfe4e7;
+	--l3-text: #1f2c33;
+	--l3-muted: #768d99;
+	--l3-accent: #0275b8;
+	--l3-accent-hover: #02659f;
+	--l3-accent-text: #ffffff;
+	--l3-link: #0275b8;
+	--l3-seg-on: #768d99;
+	--l3-seg-on-text: #ffffff;
+	--l3-ok-text: #429e47;
+	--l3-ms-hover: #e8f5ff;
+	--l3-shadow: 0 8px 24px rgba(31, 44, 51, 0.18);
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	font-size: 12px;
+	color: var(--l3-text);
+	container-type: inline-size;
+}
+
+/* Tema oscuro de Zabbix (dark-theme, dark-classic-theme) */
+html[theme="dark-theme"] .laka3d,
+html[theme="dark-classic-theme"] .laka3d {
+	--l3-bg: rgba(43, 43, 43, 0.95);
+	--l3-bg-solid: #2b2b2b;
+	--l3-bg-soft: #383838;
+	--l3-border: #4f4f4f;
+	--l3-text: #f2f2f2;
+	--l3-muted: #999999;
+	--l3-accent: #69808d;
+	--l3-accent-hover: #5e737e;
+	--l3-accent-text: #ffffff;
+	--l3-link: #4796c4;
+	--l3-seg-on: #4f4f4f;
+	--l3-seg-on-text: #f2f2f2;
+	--l3-ok-text: #59db8f;
+	--l3-ms-hover: #454545;
+	--l3-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+/* Tema azul oscuro de Zabbix 8.0 (dark-blue-theme) */
+html[theme="dark-blue-theme"] .laka3d {
+	--l3-bg: rgba(0, 31, 66, 0.95);
+	--l3-bg-solid: #001f42;
+	--l3-bg-soft: #002b5b;
+	--l3-border: #003a7a;
+	--l3-text: #e5f1ff;
+	--l3-muted: #939ca4;
+	--l3-accent: #0066d9;
+	--l3-accent-hover: #004fa8;
+	--l3-accent-text: #ffffff;
+	--l3-link: #3d98ff;
+	--l3-seg-on: #003a7a;
+	--l3-seg-on-text: #e5f1ff;
+	--l3-ok-text: #10b981;
+	--l3-ms-hover: rgba(255, 255, 255, 0.08);
+	--l3-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Alto contraste de Zabbix (hc-light, hc-dark) */
+html[theme="hc-light"] .laka3d {
+	--l3-bg: #ffffff;
+	--l3-bg-solid: #ffffff;
+	--l3-bg-soft: #ffffff;
+	--l3-border: #333333;
+	--l3-text: #000000;
+	--l3-muted: #333333;
+	--l3-accent: #333333;
+	--l3-accent-hover: #000000;
+	--l3-link: #0059b3;
+	--l3-seg-on: #333333;
+	--l3-seg-on-text: #ffffff;
+	--l3-ok-text: #1e6b27;
+	--l3-ms-hover: #dddddd;
+}
+
+html[theme="hc-dark"] .laka3d {
+	--l3-bg: #000000;
+	--l3-bg-solid: #000000;
+	--l3-bg-soft: #1f1f1f;
+	--l3-border: #dddddd;
+	--l3-text: #ffffff;
+	--l3-muted: #cacaca;
+	--l3-accent: #dddddd;
+	--l3-accent-hover: #ffffff;
+	--l3-accent-text: #000000;
+	--l3-link: #60b0ff;
+	--l3-seg-on: #dddddd;
+	--l3-seg-on-text: #000000;
+	--l3-ok-text: #59db8f;
+	--l3-ms-hover: #333333;
+	--l3-shadow: none;
+}
+
+.laka3d-stage {
+	position: absolute;
+	inset: 0;
+	touch-action: none;
+}
+
+.laka3d-stage canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	cursor: grab;
+}
+
+.laka3d button {
+	font: inherit;
+	color: inherit;
+}
+
+/* Barra superior */
+.laka3d-toolbar {
+	position: absolute;
+	top: 8px;
+	right: 60px;
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	z-index: 3;
+}
+
+.laka3d-seg {
+	display: flex;
+	gap: 2px;
+	padding: 2px;
+	background: var(--l3-bg);
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+}
+
+.laka3d-seg button {
+	border: 0;
+	background: transparent;
+	padding: 6px 10px;
+	min-height: 30px;
+	border-radius: 6px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.laka3d-seg button[aria-pressed="true"] {
+	background: var(--l3-seg-on);
+	color: var(--l3-seg-on-text);
+}
+
+.laka3d-search {
+	height: 34px;
+	width: 170px;
+	padding: 0 10px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg);
+	color: var(--l3-text);
+	font: inherit;
+}
+
+.laka3d-warn {
+	height: 34px;
+	padding: 0 10px;
+	border-radius: 8px;
+	border: 1px solid #c98a12;
+	background: rgba(242, 184, 75, 0.18);
+	cursor: pointer;
+	font-weight: 600;
+}
+
+/* Controles de cámara */
+.laka3d-controls {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	z-index: 3;
+}
+
+.laka3d-controls button {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 9px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg);
+	cursor: pointer;
+}
+
+.laka3d-controls button:hover,
+.laka3d-controls button:focus-visible {
+	border-color: var(--l3-link);
+}
+
+.laka3d-controls button[aria-pressed="true"] {
+	background: var(--l3-seg-on);
+	border-color: var(--l3-seg-on);
+	color: var(--l3-seg-on-text);
+}
+
+.laka3d-controls svg {
+	width: 18px;
+	height: 18px;
+}
+
+/* Leyenda y marca */
+.laka3d-legend {
+	position: absolute;
+	left: 8px;
+	bottom: 8px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+	max-width: calc(100% - 230px);
+	z-index: 2;
+}
+
+.laka3d-legend > span {
+	background: var(--l3-bg);
+	border: 1px solid var(--l3-border);
+	border-radius: 14px;
+	padding: 4px 9px;
+	display: inline-flex;
+	gap: 6px;
+	align-items: center;
+}
+
+.laka3d-legend i {
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.laka3d-legend .laka3d-grad {
+	width: 140px;
+	height: 10px;
+	padding: 0;
+	border-radius: 5px;
+	background: linear-gradient(90deg, #3b82c4, #3fb27f, #f2b84b, #f08c43, #d63c3c);
+}
+
+.laka3d-brand {
+	position: absolute;
+	right: 10px;
+	bottom: 8px;
+	font-size: 11px;
+	color: var(--l3-text);
+	opacity: 0.8;
+	z-index: 2;
+	pointer-events: none;
+}
+
+/* Tooltip y aviso */
+.laka3d-tip {
+	position: absolute;
+	pointer-events: none;
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-border);
+	padding: 5px 8px;
+	border-radius: 6px;
+	font-weight: 600;
+	white-space: nowrap;
+	z-index: 6;
+}
+
+.laka3d-toast {
+	position: absolute;
+	left: 50%;
+	bottom: 40px;
+	transform: translateX(-50%);
+	max-width: calc(100% - 24px);
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-link);
+	border-radius: 9px;
+	padding: 8px 12px;
+	box-shadow: var(--l3-shadow);
+	z-index: 7;
+}
+
+.laka3d [hidden] {
+	display: none !important;
+}
+
+/* Ventanas de rack y de equipo */
+.laka3d-panel {
+	position: absolute;
+	left: 8px;
+	top: 8px;
+	bottom: 40px;
+	width: 380px;
+	max-width: calc(100% - 70px);
+	overflow: auto;
+	background: var(--l3-bg);
+	border: 1px solid var(--l3-border);
+	border-radius: 12px;
+	padding: 12px 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	box-shadow: var(--l3-shadow);
+	z-index: 4;
+}
+
+.laka3d-panel h4 {
+	margin: 4px 0 0;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--l3-muted);
+}
+
+.laka3d-muted {
+	color: var(--l3-muted);
+}
+
+.laka3d-ok {
+	color: var(--l3-ok-text);
+	font-weight: 600;
+	margin: 0;
+}
+
+.laka3d-crumbs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	align-items: center;
+}
+
+.laka3d-crumbs button {
+	border: 0;
+	background: none;
+	padding: 2px;
+	color: var(--l3-link);
+	cursor: pointer;
+}
+
+.laka3d-crumbs button:hover {
+	text-decoration: underline;
+}
+
+.laka3d-cur {
+	font-weight: 600;
+}
+
+.laka3d-head {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.laka3d-dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	margin-top: 4px;
+	flex: 0 0 12px;
+}
+
+.laka3d-titles {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+	min-width: 0;
+}
+
+.laka3d-titles strong {
+	font-size: 15px;
+	overflow-wrap: anywhere;
+}
+
+.laka3d-x {
+	border: 0;
+	background: none;
+	width: 32px;
+	height: 32px;
+	border-radius: 8px;
+	cursor: pointer;
+	color: var(--l3-muted) !important;
+}
+
+.laka3d-x:hover {
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-kpis {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.laka3d-kpis > div {
+	background: var(--l3-bg-soft);
+	border: 1px solid var(--l3-border);
+	border-radius: 9px;
+	padding: 7px 9px;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.laka3d-kpis strong {
+	font-size: 14px;
+}
+
+.laka3d-meter {
+	height: 5px;
+	border-radius: 3px;
+	background: var(--l3-border);
+	overflow: hidden;
+}
+
+.laka3d-meter b {
+	display: block;
+	height: 100%;
+	background: var(--l3-accent);
+}
+
+.laka3d-rackbody {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 12px;
+	align-items: start;
+}
+
+.laka3d-seg-sm {
+	width: max-content;
+	margin-bottom: 6px;
+}
+
+.laka3d-seg-sm button {
+	min-height: 28px;
+	padding: 4px 9px;
+}
+
+.laka3d-elev {
+	display: flex;
+	gap: 3px;
+	background: #0d1114;
+	border: 1px solid #2a333c;
+	border-radius: 8px;
+	padding: 6px 6px 6px 2px;
+}
+
+.laka3d-ucol {
+	display: flex;
+	flex-direction: column;
+	width: 16px;
+}
+
+.laka3d-ucol > div {
+	position: relative;
+}
+
+.laka3d-ucol span {
+	position: absolute;
+	right: 0;
+	top: -1px;
+	font-size: 8px;
+	line-height: 9px;
+	color: #6b7680;
+}
+
+.laka3d-udevs {
+	position: relative;
+	width: 140px;
+	background: repeating-linear-gradient(#141a1f 0 8px, #1a2026 8px 9px);
+	border-left: 3px solid #39424b;
+	border-right: 3px solid #39424b;
+}
+
+.laka3d-u {
+	position: absolute;
+	left: 2px;
+	right: 2px;
+	border: 0;
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 0 4px;
+	font-size: 9px !important;
+	font-weight: 600;
+	cursor: pointer;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.laka3d-u:hover,
+.laka3d-u:focus-visible {
+	outline: 2px solid #ffffff;
+	z-index: 1;
+}
+
+.laka3d-u i {
+	width: 3px;
+	height: 70%;
+	border-radius: 1px;
+	flex: 0 0 3px;
+}
+
+.laka3d-u span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.laka3d-side {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.laka3d-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	text-align: left;
+	background: var(--l3-bg-soft);
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+	padding: 6px 8px;
+	cursor: pointer;
+	min-height: 36px;
+}
+
+.laka3d-row:hover,
+.laka3d-row:focus-visible {
+	border-color: var(--l3-link);
+}
+
+.laka3d-row i {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex: 0 0 8px;
+}
+
+.laka3d-devrow {
+	display: grid;
+	grid-template-columns: 8px minmax(0, 1fr) auto auto;
+	gap: 8px;
+}
+
+.laka3d-dn {
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.laka3d-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.laka3d-alert {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	border-left: 4px solid;
+	background: var(--l3-bg-soft);
+	border-radius: 8px;
+	padding: 7px 10px;
+}
+
+.laka3d-inv {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 4px 12px;
+}
+
+.laka3d-inv strong {
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.laka3d-links {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.laka3d-links a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 34px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-soft);
+	color: var(--l3-text);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.laka3d-links a:hover,
+.laka3d-links a:focus-visible {
+	border-color: var(--l3-link);
+	color: var(--l3-link);
+}
+
+.laka3d-warnlist {
+	margin: 0;
+	padding-left: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+/* Widget vacío */
+.laka3d-empty {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	text-align: center;
+	padding: 16px;
+	color: var(--l3-text, inherit);
+}
+
+.laka3d-empty code {
+	padding: 6px 10px;
+	border-radius: 6px;
+	background: rgba(127, 127, 127, 0.15);
+}
+
+.laka3d-empty p {
+	margin: 0;
+}
+
+.laka3d-brand-inline {
+	font-size: 11px;
+	opacity: 0.8;
+}
+
+/* Widget angosto: la ventana se vuelve una hoja inferior y la barra se compacta */
+.laka3d.laka3d-narrow .laka3d-panel {
+	background: var(--l3-bg-solid);
+	left: 0;
+	right: 0;
+	top: auto;
+	bottom: 0;
+	width: auto;
+	max-width: none;
+	max-height: 70%;
+	border-radius: 14px 14px 0 0;
+}
+
+.laka3d.laka3d-narrow .laka3d-search {
+	width: 120px;
+}
+
+.laka3d.laka3d-narrow .laka3d-brand {
+	display: none;
+}
+
+.laka3d.laka3d-narrow .laka3d-legend {
+	max-width: calc(100% - 16px);
+}
+
+.laka3d.laka3d-narrow .laka3d-legend > span:not(.laka3d-total) {
+	display: none;
+}
+
+/* Botón de editar y chip de "sin ubicar" */
+.laka3d-edit {
+	height: 34px;
+	padding: 0 10px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-link);
+	background: var(--l3-bg);
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.laka3d-edit svg {
+	width: 15px;
+	height: 15px;
+}
+
+.laka3d-legend > .laka3d-chip-btn {
+	background: var(--l3-bg);
+	border: 1px solid #c98a12;
+	border-radius: 14px;
+	padding: 4px 9px;
+	cursor: pointer;
+	display: inline-flex;
+	gap: 6px;
+	align-items: center;
+}
+
+.laka3d-empty-root {
+	display: flex;
+}
+
+.laka3d-empty-root .laka3d-empty {
+	flex: 1;
+}
+
+/* Botones comunes */
+.laka3d-btn {
+	min-height: 32px;
+	padding: 0 12px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-soft);
+	color: var(--l3-text);
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+.laka3d-btn:hover:not(:disabled),
+.laka3d-btn:focus-visible {
+	border-color: var(--l3-link);
+}
+
+.laka3d-btn:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+
+.laka3d-btn-primary {
+	background: var(--l3-accent);
+	border-color: var(--l3-accent);
+	color: var(--l3-accent-text) !important;
+}
+
+.laka3d-btn-primary:hover:not(:disabled) {
+	background: var(--l3-accent-hover);
+	border-color: var(--l3-accent-hover);
+}
+
+.laka3d-btn-danger {
+	border-color: #d64545;
+	color: #d64545 !important;
+}
+
+.laka3d-btn-icon {
+	width: 32px;
+	padding: 0;
+}
+
+.laka3d-link {
+	border: 0;
+	background: none;
+	color: var(--l3-link) !important;
+	text-decoration: underline;
+	cursor: pointer;
+	padding: 0;
+}
+
+/* Editor de sala */
+.laka3d-editor {
+	position: absolute;
+	inset: 0;
+	z-index: 9;
+	display: flex;
+	flex-direction: column;
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+}
+
+.laka3d-editor input[type="text"],
+.laka3d-editor input[type="number"],
+.laka3d-editor input[type="search"],
+.laka3d-editor select,
+.laka3d-editor textarea {
+	font: inherit;
+	color: var(--l3-text);
+	background: var(--l3-bg-soft);
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+	padding: 5px 8px;
+	min-height: 30px;
+	box-sizing: border-box;
+}
+
+.laka3d-editor label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--l3-muted);
+}
+
+.laka3d-ed-short {
+	width: 110px;
+}
+
+.laka3d-ed-num {
+	width: 64px;
+}
+
+.laka3d-ed-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 14px;
+	border-bottom: 1px solid var(--l3-border);
+	flex-wrap: wrap;
+}
+
+.laka3d-ed-title {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+	min-width: 160px;
+}
+
+.laka3d-ed-title strong {
+	font-size: 15px;
+}
+
+.laka3d-ed-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.laka3d-ed-tabs {
+	display: flex;
+	gap: 2px;
+	padding: 0 10px;
+	border-bottom: 1px solid var(--l3-border);
+	overflow-x: auto;
+}
+
+.laka3d-ed-tabs button {
+	border: 0;
+	background: none;
+	padding: 10px 12px;
+	font-weight: 600;
+	color: var(--l3-muted) !important;
+	border-bottom: 3px solid transparent;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.laka3d-ed-tabs button[aria-selected="true"] {
+	color: var(--l3-text) !important;
+	border-bottom-color: var(--l3-link);
+}
+
+.laka3d-ed-msg {
+	margin: 10px 14px 0;
+	padding: 8px 12px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-ed-msg-error {
+	border-color: #d64545;
+}
+
+.laka3d-ed-msg-info {
+	border-color: var(--l3-link);
+}
+
+.laka3d-ed-body {
+	flex: 1;
+	overflow: auto;
+	padding: 12px 14px 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.laka3d-ed-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.laka3d-ed-card {
+	border: 1px solid var(--l3-border);
+	border-radius: 10px;
+	padding: 10px 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	background: var(--l3-bg-solid);
+}
+
+.laka3d-ed-selected {
+	border-color: var(--l3-link);
+}
+
+.laka3d-ed-cardhead {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.laka3d-ed-grow {
+	flex: 1;
+}
+
+.laka3d-ed-strip {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.laka3d-ed-rack {
+	min-width: 74px;
+	min-height: 54px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-soft);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
+	cursor: pointer;
+	padding: 4px 8px;
+}
+
+.laka3d-ed-rack span {
+	font-size: 11px;
+	color: var(--l3-muted);
+}
+
+.laka3d-ed-rack.is-selected {
+	border-color: var(--l3-link);
+	box-shadow: 0 0 0 2px var(--l3-link) inset;
+}
+
+.laka3d-ed-add {
+	border-style: dashed;
+	color: var(--l3-link) !important;
+	font-weight: 600;
+}
+
+.laka3d-ed-props {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 12px;
+	align-items: center;
+}
+
+.laka3d-ed-btns {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
+
+.laka3d-ed-hint {
+	margin: 0;
+	padding: 7px 10px;
+	border-radius: 8px;
+	background: var(--l3-bg-soft);
+	color: var(--l3-muted);
+}
+
+.laka3d-ed-hint.is-armed {
+	color: var(--l3-text);
+	border: 1px solid var(--l3-link);
+}
+
+.laka3d-ed-devices {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 14px;
+	align-items: start;
+}
+
+.laka3d-ed-elev {
+	width: 250px;
+	box-sizing: border-box;
+	display: flex;
+	background: #0d1114;
+	border: 1px solid #2a333c;
+	border-radius: 8px;
+	padding: 6px;
+	position: relative;
+}
+
+.laka3d-ed-ugrid {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.laka3d-ed-u {
+	border: 0;
+	border-bottom: 1px solid #1f262c;
+	background: #141a1f;
+	color: #6b7680 !important;
+	font-size: 9px !important;
+	text-align: left;
+	padding: 0 4px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.laka3d-ed-u:hover,
+.laka3d-ed-u:focus-visible {
+	background: #1e3a38;
+	color: #ffffff !important;
+}
+
+.laka3d-ed-blocks {
+	position: absolute;
+	left: 30px;
+	right: 6px;
+	top: 6px;
+	pointer-events: none;
+}
+
+.laka3d-ed-dev {
+	position: absolute;
+	left: 0;
+	right: 0;
+	pointer-events: auto;
+	border: 1px solid #0d1114;
+	border-radius: 3px;
+	background: #2f3b45;
+	color: #ffffff !important;
+	font-size: 10px !important;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 6px;
+	padding: 0 6px;
+	overflow: hidden;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.laka3d-ed-dev em {
+	font-style: normal;
+	opacity: 0.7;
+}
+
+.laka3d-ed-dev span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.laka3d-ed-k-passive {
+	background: #4a535c;
+}
+
+.laka3d-ed-dev.is-other {
+	background: repeating-linear-gradient(45deg, #2a3036 0 4px, #232a30 4px 8px);
+	color: #9aa5af !important;
+}
+
+.laka3d-ed-dev.is-selected {
+	outline: 2px solid var(--l3-link);
+	z-index: 1;
+}
+
+.laka3d-ed-sidecol {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	min-width: 0;
+}
+
+.laka3d-ed-search {
+	width: 100%;
+}
+
+.laka3d-ed-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	max-height: 260px;
+	overflow: auto;
+}
+
+.laka3d-ed-host {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	text-align: left;
+	border: 1px solid var(--l3-border);
+	border-radius: 7px;
+	background: var(--l3-bg-soft);
+	padding: 6px 8px;
+	cursor: pointer;
+	min-height: 32px;
+	align-items: center;
+}
+
+.laka3d-ed-host em {
+	font-style: normal;
+	color: var(--l3-muted);
+}
+
+.laka3d-ed-host.is-armed {
+	border-color: var(--l3-link);
+	box-shadow: 0 0 0 2px var(--l3-link) inset;
+}
+
+.laka3d-ed-text {
+	width: 100%;
+	font-family: monospace !important;
+	resize: vertical;
+}
+
+.laka3d-file {
+	position: relative;
+	overflow: hidden;
+}
+
+.laka3d-file input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.laka3d-ed-report {
+	margin: 0;
+	padding-left: 18px;
+}
+
+.laka3d-ed-report .is-error {
+	color: #d64545;
+}
+
+.laka3d-ed-templates {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+	gap: 10px;
+}
+
+.laka3d-ed-tpl {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	text-align: left;
+	border: 1px solid var(--l3-border);
+	border-radius: 10px;
+	background: var(--l3-bg-soft);
+	padding: 12px;
+	cursor: pointer;
+}
+
+.laka3d-ed-tpl:hover,
+.laka3d-ed-tpl:focus-visible {
+	border-color: var(--l3-link);
+}
+
+.laka3d-ed-tplpic {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	height: 44px;
+	justify-content: center;
+}
+
+.laka3d-ed-tplpic i {
+	display: block;
+	height: 7px;
+	border-radius: 2px;
+	background: var(--l3-accent);
+	opacity: 0.8;
+}
+
+.laka3d.laka3d-narrow .laka3d-ed-devices {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.laka3d.laka3d-narrow .laka3d-edit span,
+.laka3d.laka3d-narrow .laka3d-noc-btn span {
+	display: none;
+}
+
+/* Texto del recorrido guiado */
+.laka3d-caption {
+	position: absolute;
+	left: 50%;
+	top: 10px;
+	transform: translateX(-50%);
+	max-width: calc(100% - 140px);
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-border);
+	border-left: 4px solid var(--l3-link);
+	border-radius: 8px;
+	padding: 8px 14px;
+	font-size: 14px;
+	font-weight: 600;
+	box-shadow: var(--l3-shadow);
+	z-index: 5;
+}
+
+.laka3d.laka3d-narrow .laka3d-caption {
+	top: auto;
+	bottom: 40px;
+	max-width: calc(100% - 16px);
+}
+
+/* Plano de infraestructura del editor */
+.laka3d-ed-palette {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.laka3d-btn.is-armed {
+	border-color: var(--l3-link);
+	box-shadow: 0 0 0 2px var(--l3-link) inset;
+}
+
+.laka3d-ed-plan {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.laka3d-ed-infra {
+	grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
+}
+
+.laka3d-pl {
+	width: 100%;
+	height: auto;
+	max-height: 520px;
+	background: var(--l3-bg-soft);
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+	touch-action: none;
+	cursor: crosshair;
+}
+
+.laka3d-pl-room {
+	fill: none;
+	stroke: var(--l3-muted);
+	stroke-width: 0.05;
+	stroke-dasharray: 0.2 0.12;
+}
+
+.laka3d-pl-aisle {
+	fill: rgba(77, 134, 173, 0.35);
+}
+
+.laka3d-pl-rack rect {
+	fill: #39414a;
+	stroke: #1f2c33;
+	stroke-width: 0.02;
+}
+
+.laka3d-pl-rack line {
+	stroke: #59db8f;
+	stroke-width: 0.06;
+}
+
+.laka3d-pl-rack text,
+.laka3d-pl-label {
+	font-size: 0.17px;
+	font-weight: 700;
+	text-anchor: middle;
+	fill: var(--l3-text);
+	pointer-events: none;
+}
+
+.laka3d-pl-rack text {
+	fill: #ffffff;
+	font-size: 0.15px;
+}
+
+.laka3d-pl-obj {
+	cursor: grab;
+}
+
+.laka3d-pl-obj rect,
+.laka3d-pl-obj circle {
+	fill: #c9d0d6;
+	stroke: #3c5563;
+	stroke-width: 0.03;
+}
+
+.laka3d-pl-ups rect {
+	fill: #2b3137;
+}
+
+.laka3d-pl-door rect {
+	fill: #7d8790;
+}
+
+.laka3d-pl-sensor circle {
+	fill: #f2f4f5;
+}
+
+.laka3d-pl-front {
+	stroke: var(--l3-link);
+	stroke-width: 0.06;
+}
+
+.laka3d-pl-obj.is-selected rect,
+.laka3d-pl-obj.is-selected circle {
+	stroke: var(--l3-link);
+	stroke-width: 0.07;
+}
+
+.laka3d-pl-obj.is-fixed {
+	cursor: pointer;
+}
+
+.laka3d-ed-props-col {
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.laka3d-ed-props-col label {
+	justify-content: space-between;
+}
+
+.laka3d-ed-props-col input[type="text"],
+.laka3d-ed-props-col select {
+	width: 60%;
+}
+
+/* ---- v0.4.0: aires en fila, montaje en pared y búsqueda de hosts en Zabbix ---- */
+
+.laka3d-ed-rack.laka3d-ed-cooler {
+	min-width: 54px;
+	background: rgba(77, 134, 173, 0.14);
+	border-color: rgba(77, 134, 173, 0.6);
+}
+
+.laka3d-pl-cooler rect {
+	fill: #d9dee2;
+	stroke: #4d86ad;
+}
+
+.laka3d-pl-cooler text {
+	fill: #1f2c33;
+	font-size: 0.2px;
+}
+
+/* Elementos pegados a la pared: se deslizan por ella al arrastrarlos. */
+.laka3d-pl-obj.is-wall rect,
+.laka3d-pl-obj.is-wall circle {
+	stroke-dasharray: 0.08 0.04;
+}
+
+.laka3d-pl-obj.is-wall.is-selected rect,
+.laka3d-pl-obj.is-wall.is-selected circle {
+	stroke-dasharray: none;
+}
+
+.laka3d-ed-search-card .laka3d-ed-list {
+	max-height: 220px;
+}
+
+.laka3d-ed-search-card input[type="search"] {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.laka3d-ed-hostname {
+	font-weight: 600;
+	color: var(--l3-text);
+	word-break: break-word;
+}
+
+.laka3d-ed-sidecol > .laka3d-seg {
+	align-self: flex-start;
+}
+
+/* ---- v0.5.0: modo NOC ---- */
+
+.laka3d-noc-btn {
+	height: 34px;
+	padding: 0 10px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-accent);
+	background: var(--l3-accent);
+	color: #ffffff;
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.laka3d-noc-btn:hover {
+	background: var(--l3-accent-hover);
+}
+
+.laka3d-noc-btn svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* En modo NOC se ocultan los controles de trabajo: queda la sala, los indicadores y la lista. */
+.laka3d.is-noc .laka3d-toolbar,
+.laka3d.is-noc .laka3d-controls,
+.laka3d.is-noc .laka3d-legend,
+.laka3d.is-noc .laka3d-panel,
+.laka3d.is-noc .laka3d-caption,
+.laka3d.is-noc .laka3d-toast {
+	display: none !important;
+}
+
+.laka3d.is-noc:fullscreen {
+	width: 100vw;
+	height: 100vh;
+	background: var(--l3-bg-solid);
+}
+
+.laka3d-noc {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 4;
+	--noc-sev: transparent;
+}
+
+.laka3d-noc[hidden] {
+	display: none;
+}
+
+.laka3d-noc > * {
+	pointer-events: auto;
+}
+
+.laka3d-noc-top {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	right: 8px;
+	display: flex;
+	align-items: stretch;
+	gap: 10px;
+	background: var(--l3-bg);
+	border: 1px solid var(--l3-border);
+	border-radius: 12px;
+	padding: 8px 10px;
+	box-shadow: var(--l3-shadow);
+}
+
+.laka3d-noc-title {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-width: 120px;
+}
+
+.laka3d-noc-title strong {
+	font-size: 16px;
+	color: var(--l3-text);
+}
+
+.laka3d-noc-title span,
+.laka3d-noc-clock span {
+	font-size: 12px;
+	color: var(--l3-muted);
+}
+
+.laka3d-noc-kpis {
+	flex: 1;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
+
+.laka3d-noc-kpi {
+	--c: var(--l3-muted);
+	min-width: 72px;
+	padding: 4px 10px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	border-left: 4px solid var(--c);
+	background: var(--l3-bg-soft);
+	display: flex;
+	flex-direction: column;
+}
+
+.laka3d-noc-kpi span {
+	font-size: 11px;
+	color: var(--l3-muted);
+	white-space: nowrap;
+}
+
+.laka3d-noc-kpi strong {
+	font-size: 20px;
+	line-height: 1.2;
+	color: var(--l3-text);
+}
+
+.laka3d-noc-kpi.is-on strong {
+	color: var(--c);
+}
+
+.laka3d-noc-clock {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	min-width: 150px;
+}
+
+.laka3d-noc-clock strong {
+	font-size: 26px;
+	font-variant-numeric: tabular-nums;
+	color: var(--l3-text);
+	line-height: 1.1;
+}
+
+.laka3d-noc-exit {
+	align-self: center;
+	white-space: nowrap;
+}
+
+.laka3d-noc-side {
+	position: absolute;
+	top: var(--noc-top, 96px);
+	right: 8px;
+	bottom: 70px;
+	width: 340px;
+	display: flex;
+	flex-direction: column;
+	background: var(--l3-bg);
+	border: 1px solid var(--l3-border);
+	border-radius: 12px;
+	box-shadow: var(--l3-shadow);
+	overflow: hidden;
+}
+
+.laka3d-noc-side h4 {
+	margin: 0;
+	padding: 10px 12px;
+	font-size: 13px;
+	color: var(--l3-text);
+	border-bottom: 1px solid var(--l3-border);
+}
+
+.laka3d-noc-list {
+	overflow: auto;
+	padding: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.laka3d-noc-list .laka3d-ok {
+	padding: 8px;
+}
+
+.laka3d-noc-item {
+	--c: var(--l3-muted);
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 7px 9px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	border-left: 5px solid var(--c);
+	background: var(--l3-bg-soft);
+	color: var(--l3-text);
+	cursor: pointer;
+	font: inherit;
+}
+
+.laka3d-noc-item:hover {
+	border-color: var(--l3-link);
+	border-left-color: var(--c);
+}
+
+.laka3d-noc-item.is-new {
+	animation: laka3d-noc-blink 1.2s ease-in-out infinite;
+}
+
+.laka3d-noc-sev {
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--c);
+	text-transform: uppercase;
+}
+
+.laka3d-noc-item strong {
+	font-size: 13px;
+}
+
+.laka3d-noc-pname {
+	font-size: 12px;
+}
+
+.laka3d-noc-item em {
+	font-style: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+}
+
+.laka3d-noc-item em b {
+	color: var(--c);
+}
+
+@keyframes laka3d-noc-blink {
+	50% {
+		box-shadow: 0 0 0 2px var(--c) inset;
+	}
+}
+
+.laka3d-noc-alert {
+	--c: #e45959;
+	position: absolute;
+	top: var(--noc-top, 96px);
+	left: 50%;
+	transform: translateX(-50%);
+	max-width: min(640px, calc(100% - 380px));
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 10px 16px;
+	border-radius: 10px;
+	border: 2px solid var(--c);
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+	box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08), var(--l3-shadow);
+	cursor: pointer;
+	text-align: left;
+	font: inherit;
+	animation: laka3d-noc-blink 1s ease-in-out 6;
+}
+
+.laka3d-noc-alert[hidden] {
+	display: none;
+}
+
+.laka3d-noc-alert strong {
+	color: var(--c);
+	font-size: 15px;
+	text-transform: uppercase;
+}
+
+.laka3d-noc-alert em {
+	font-style: normal;
+	font-size: 12px;
+	color: var(--l3-muted);
+}
+
+.laka3d-noc-step {
+	position: absolute;
+	left: 8px;
+	right: 356px;
+	bottom: 34px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 9px 14px 8px;
+	background: var(--l3-bg);
+	border: 1px solid var(--l3-border);
+	border-left: 5px solid var(--noc-sev);
+	border-radius: 10px;
+	box-shadow: var(--l3-shadow);
+	pointer-events: none;
+}
+
+.laka3d-noc-step-text {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--l3-text);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.laka3d-noc-progress {
+	height: 3px;
+	border-radius: 2px;
+	background: var(--l3-border);
+	overflow: hidden;
+}
+
+.laka3d-noc-progress i {
+	display: block;
+	height: 100%;
+	width: 0;
+	background: var(--l3-accent);
+}
+
+.laka3d-noc.is-paused .laka3d-noc-step-text {
+	color: var(--l3-muted);
+}
+
+/* Widget angosto: indicadores en dos líneas y la lista se oculta. */
+.laka3d.laka3d-narrow .laka3d-noc-top {
+	flex-wrap: wrap;
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-kpis {
+	order: 3;
+	flex-basis: 100%;
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-side {
+	display: none;
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-step {
+	right: 8px;
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-alert {
+	top: auto;
+	bottom: 100px;
+	max-width: calc(100% - 16px);
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-step-text {
+	font-size: 13px;
+	white-space: normal;
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-kpi {
+	min-width: 0;
+	padding: 2px 7px;
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-kpi strong {
+	font-size: 15px;
+}
+
+.laka3d.laka3d-narrow .laka3d-noc-clock strong {
+	font-size: 20px;
+}
+
+/* ---- v0.6.0: capacidad, energía y planificador ---- */
+
+.laka3d-chip-sm {
+	font-size: 11px;
+	padding: 2px 7px;
+}
+
+.laka3d-legend > .laka3d-chip-plan {
+	border-color: var(--l3-link);
+	color: var(--l3-link);
+	font-weight: 600;
+}
+
+.laka3d-kpis-cap > div {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.laka3d-planform {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	align-items: end;
+}
+
+.laka3d-planform label {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	font-size: 12px;
+	color: var(--l3-muted);
+}
+
+.laka3d-planform input {
+	width: 100%;
+	box-sizing: border-box;
+	height: 28px;
+	padding: 0 6px;
+	border: 1px solid var(--l3-border);
+	border-radius: 4px;
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+}
+
+.laka3d-planform .laka3d-btn-primary {
+	grid-column: 1 / -1;
+}
+
+.laka3d-planrow > span {
+	line-height: 1.35;
+}
+
+.laka3d-ed-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.laka3d-ed-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	border-radius: 12px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-soft);
+	color: var(--l3-text);
+	font-weight: 600;
+}
+
+/* ---- v0.6.1: puertas empotradas en la pared ---- */
+
+/* Las paredes se dibujan como líneas gruesas con el vano de cada puerta. */
+.laka3d-pl-room {
+	fill: rgba(118, 141, 153, 0.06);
+	stroke: none;
+}
+
+.laka3d-pl-wall {
+	stroke: var(--l3-muted);
+	stroke-width: 0.2;
+	stroke-linecap: square;
+}
+
+.laka3d-pl-obj.laka3d-pl-door rect.laka3d-pl-doorframe {
+	fill: #7d8790;
+	stroke: none;
+}
+
+.laka3d-pl-leaf {
+	stroke: var(--l3-text);
+	stroke-width: 0.06;
+}
+
+.laka3d-pl-swing {
+	fill: none;
+	stroke: var(--l3-muted);
+	stroke-width: 0.03;
+	stroke-dasharray: 0.08 0.05;
+}
+
+.laka3d-pl-obj rect.laka3d-pl-hit,
+.laka3d-pl-obj.is-selected rect.laka3d-pl-hit {
+	fill: transparent;
+	stroke: none;
+}
+
+.laka3d-pl-obj.laka3d-pl-door.is-selected .laka3d-pl-leaf,
+.laka3d-pl-obj.laka3d-pl-door.is-selected .laka3d-pl-swing {
+	stroke: var(--l3-link);
+}
+
+.laka3d-doorbar {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 8px 10px;
+	margin: 6px 0 8px;
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+	background: var(--l3-bg-soft);
+}
+
+/* ---- v0.7.0: sitios y salas, lugares de fila (aire, UPS, baterías) ---- */
+
+.laka3d-site-btn {
+	height: 34px;
+	padding: 0 10px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	max-width: 260px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg);
+	color: var(--l3-text);
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.laka3d-site-btn span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.laka3d-site-btn svg {
+	width: 16px;
+	height: 16px;
+	flex: none;
+}
+
+.laka3d-site-btn:hover {
+	border-color: var(--l3-link);
+}
+
+.laka3d.laka3d-narrow .laka3d-site-btn span {
+	display: none;
+}
+
+.laka3d-empty .laka3d-site-btn {
+	align-self: center;
+	margin-bottom: 8px;
+}
+
+.laka3d-ed-rack.laka3d-ed-slot-ups {
+	background: rgba(116, 153, 255, 0.14);
+	border-color: rgba(116, 153, 255, 0.6);
+}
+
+.laka3d-ed-rack.laka3d-ed-slot-battery {
+	background: rgba(255, 200, 89, 0.14);
+	border-color: rgba(255, 200, 89, 0.6);
+}
+
+.laka3d-pl-slot-ups rect {
+	fill: #2b3137;
+	stroke: #7499ff;
+}
+
+.laka3d-pl-slot-battery rect {
+	fill: #22272c;
+	stroke: #ffc859;
+}
+
+.laka3d-pl-slot-ups text,
+.laka3d-pl-slot-battery text {
+	fill: #e8ebed;
+}
+
+/* ---- v0.7.1: pasillos fríos y calientes, contención y filas invertidas ---- */
+
+.laka3d-pl-aisle-cold,
+.laka3d-pl-aisle-mixed {
+	fill: rgba(77, 134, 173, 0.35);
+	stroke: none;
+}
+
+.laka3d-pl-aisle-mixed {
+	fill: rgba(77, 134, 173, 0.2);
+}
+
+.laka3d-pl-aisle-hot {
+	fill: rgba(228, 89, 89, 0.22);
+	stroke: none;
+}
+
+.laka3d-pl-aisle.is-contained {
+	stroke: var(--l3-text);
+	stroke-width: 0.06;
+	stroke-dasharray: 0.15 0.08;
+}
+
+.laka3d-ed-cardhead [data-ed="row-flip"][aria-pressed="true"] {
+	border-color: var(--l3-accent);
+	color: var(--l3-link);
+}
+
+/* ---- v0.8.0: compatibilidad con los estilos globales de Zabbix ---- */
+
+/*
+ * Zabbix da a todos los <button> alto fijo de 24 px, interlineado de 22 px y texto centrado, y a <header>
+ * un ancho mínimo de 1200 px. Dentro del widget se anulan para que los botones de varias líneas
+ * (problemas, salas, plantillas, equipos) no se encimen.
+ */
+.laka3d button {
+	height: auto;
+	min-height: 0;
+	min-width: 0;
+	line-height: 1.3;
+	font-family: inherit;
+}
+
+.laka3d .laka3d-controls button {
+	height: 40px;
+}
+
+.laka3d .laka3d-x {
+	height: 32px;
+}
+
+.laka3d .laka3d-edit,
+.laka3d .laka3d-noc-btn,
+.laka3d .laka3d-site-btn {
+	height: 34px;
+}
+
+.laka3d .laka3d-btn {
+	min-height: 32px;
+}
+
+.laka3d .laka3d-seg button {
+	min-height: 28px;
+}
+
+.laka3d .laka3d-ed-tabs button {
+	min-height: 34px;
+}
+
+/* Problemas activos del modo NOC: cada fila crece con su texto. */
+.laka3d-noc-item {
+	flex: none;
+	white-space: normal;
+	line-height: 1.3;
+	overflow-wrap: anywhere;
+}
+
+.laka3d-noc-item:focus-visible,
+.laka3d-site-room:focus-visible,
+.laka3d-site-head:focus-visible {
+	outline: 2px solid var(--l3-link);
+	outline-offset: 1px;
+}
+
+/* ---- v0.8.0: ventana de sitios y salas con mapa ---- */
+
+.laka3d-sites {
+	position: absolute;
+	inset: 0;
+	z-index: 6;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px;
+	background: rgba(0, 0, 0, 0.45);
+}
+
+.laka3d-sites-box {
+	position: relative;
+	width: min(1180px, 100%);
+	max-height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 14px 16px;
+	border-radius: 12px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+	box-shadow: var(--l3-shadow);
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.laka3d-sites-box.is-map {
+	height: min(760px, 100%);
+}
+
+.laka3d-sites-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.laka3d-sites-head .laka3d-titles {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 220px;
+	min-width: 180px;
+}
+
+.laka3d-sites-head .laka3d-ed-grow {
+	display: none;
+}
+
+.laka3d-sites-head .laka3d-titles strong {
+	font-size: 16px;
+}
+
+.laka3d-sites-mapview {
+	flex: 1;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 300px;
+	gap: 10px;
+}
+
+.laka3d-sites-map {
+	position: relative;
+	min-height: 260px;
+	border-radius: 10px;
+	border: 1px solid var(--l3-border);
+	overflow: hidden;
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-sites-map.is-blank {
+	background-image: linear-gradient(var(--l3-border) 1px, transparent 1px),
+		linear-gradient(90deg, var(--l3-border) 1px, transparent 1px);
+	background-size: 40px 40px;
+}
+
+.laka3d-sites-map.is-picking,
+.laka3d-sites-map.is-picking .leaflet-interactive {
+	cursor: crosshair;
+}
+
+.laka3d-sites-side,
+.laka3d-sites-grid {
+	min-height: 0;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.laka3d-sites-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	align-content: start;
+	max-height: 60vh;
+}
+
+.laka3d-site {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-soft);
+	box-sizing: border-box;
+}
+
+.laka3d-site.is-selected {
+	border-color: var(--l3-link);
+	box-shadow: 0 0 0 1px var(--l3-link) inset;
+}
+
+.laka3d-site-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+}
+
+.laka3d-site-head strong {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.laka3d-site-head i,
+.laka3d-site-room i,
+.laka3d-popup-head i {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	flex: none;
+}
+
+.laka3d-site-meta,
+.laka3d-site-where {
+	font-size: 12px;
+}
+
+.laka3d-site-where em {
+	font-style: normal;
+}
+
+.laka3d-site-room {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 8px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+	cursor: pointer;
+	text-align: left;
+}
+
+.laka3d-site-room:hover {
+	border-color: var(--l3-link);
+}
+
+.laka3d-site-room.is-current {
+	border-color: var(--l3-accent);
+	box-shadow: 0 0 0 1px var(--l3-accent) inset;
+}
+
+.laka3d-site-room-text {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	line-height: 1.3;
+}
+
+.laka3d-site-room em {
+	font-style: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+}
+
+.laka3d-site-room b {
+	font-size: 11px;
+	color: var(--l3-link);
+}
+
+.laka3d-site-go {
+	font-size: 18px;
+	color: var(--l3-muted);
+}
+
+.laka3d-sites-hint {
+	position: absolute;
+	left: 50%;
+	top: 70px;
+	transform: translateX(-50%);
+	z-index: 1000;
+	padding: 8px 14px;
+	border-radius: 8px;
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-link);
+	box-shadow: var(--l3-shadow);
+}
+
+.laka3d-sites-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	flex-wrap: wrap;
+	font-size: 12px;
+}
+
+.laka3d-sites-toast {
+	position: absolute;
+	right: 16px;
+	bottom: 48px;
+	z-index: 1000;
+	padding: 8px 12px;
+	border-radius: 8px;
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-border);
+	box-shadow: var(--l3-shadow);
+}
+
+.laka3d-sites-toast[hidden] {
+	display: none;
+}
+
+.laka3d-site-new {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+	align-items: end;
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-site-new label {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	font-size: 12px;
+	color: var(--l3-muted);
+}
+
+.laka3d-site-new input {
+	height: 28px;
+	padding: 0 6px;
+	border: 1px solid var(--l3-border);
+	border-radius: 4px;
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+}
+
+.laka3d-site-new .laka3d-ed-btns,
+.laka3d-site-new .laka3d-site-err {
+	grid-column: 1 / -1;
+}
+
+.laka3d-site-err:not([hidden]) {
+	color: #e45959;
+}
+
+.laka3d-btn.is-on {
+	border-color: var(--l3-accent);
+	color: var(--l3-link);
+}
+
+/* Marcadores del mapa: círculo con el color de la severidad y el número de salas, y el nombre del sitio. */
+.laka3d-pin-wrap {
+	background: none;
+	border: 0;
+}
+
+.laka3d-pin {
+	--c: #59db8f;
+	position: relative;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	background: var(--c);
+	border: 3px solid #ffffff;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
+.laka3d-pin b {
+	color: #1f2c33;
+	font: 700 13px Arial, sans-serif;
+}
+
+.laka3d-pin.is-suggested {
+	border-style: dashed;
+}
+
+.laka3d-pin.is-alarm::after {
+	content: '';
+	position: absolute;
+	inset: -8px;
+	border-radius: 50%;
+	border: 3px solid var(--c);
+	animation: laka3d-pin-pulse 1.6s ease-out infinite;
+}
+
+@keyframes laka3d-pin-pulse {
+	from {
+		transform: scale(0.7);
+		opacity: 1;
+	}
+
+	to {
+		transform: scale(1.6);
+		opacity: 0;
+	}
+}
+
+.laka3d-pin-label {
+	position: absolute;
+	left: 50%;
+	top: 38px;
+	transform: translateX(-50%);
+	white-space: nowrap;
+	padding: 2px 7px;
+	border-radius: 6px;
+	background: rgba(31, 44, 51, 0.88);
+	color: #ffffff;
+	font: 700 12px Arial, sans-serif;
+	pointer-events: none;
+}
+
+.laka3d-pin-label em {
+	font-style: normal;
+}
+
+.laka3d-popup .leaflet-popup-content-wrapper {
+	border-radius: 10px;
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+	box-shadow: var(--l3-shadow);
+}
+
+.laka3d-popup .leaflet-popup-tip {
+	background: var(--l3-bg-solid);
+}
+
+.laka3d-popup .leaflet-popup-content {
+	margin: 12px;
+}
+
+.laka3d-popup-body {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font: 12px Arial, sans-serif;
+}
+
+.laka3d-popup-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+}
+
+.laka3d-popup-body .laka3d-btn {
+	height: auto;
+	min-height: 28px;
+	line-height: 1.3;
+}
+
+/* Widget angosto: el mapa arriba y los sitios debajo. */
+.laka3d.laka3d-narrow .laka3d-sites-mapview {
+	grid-template-columns: 1fr;
+	grid-template-rows: minmax(220px, 1fr) minmax(120px, 40%);
+}
+
+.laka3d.laka3d-narrow .laka3d-site-new {
+	grid-template-columns: 1fr;
+}
+
+/* ---- v0.8.1: resumen de pasillos y aviso de filas invertidas ---- */
+
+.laka3d-ed-aisles {
+	margin: 8px 0 0;
+}
+
+.laka3d-ed-msg.laka3d-ed-msg-warn {
+	margin: 8px 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	flex-wrap: wrap;
+	border-color: #ffa059;
+}
+
+/* ---- v0.8.2: la ventana del equipo muestra Temperatura, CPU, RAM y Problemas en dos columnas ---- */
+
+.laka3d-panel .laka3d-kpis:has(> div:nth-child(4)) {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* ---- v0.8.3: disponibilidad del host y valores sin datos recientes ---- */
+
+.laka3d-avail {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 8px;
+	font-size: 12px;
+}
+
+/* Los colores vienen de las clases status-* de Zabbix; aquí solo forma y respaldo. */
+.laka3d-avail-chip {
+	display: inline-block;
+	min-width: 16px;
+	height: 16px;
+	padding: 0 5px;
+	line-height: 16px;
+	border-radius: 2px;
+	font-size: 11px;
+	font-weight: 700;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.laka3d-avail-chip.status-green {
+	background-color: #34af67;
+	color: #ffffff;
+}
+
+.laka3d-avail-chip.status-red {
+	background-color: #d64e4e;
+	color: #ffffff;
+}
+
+.laka3d-avail-chip.status-grey {
+	background-color: #768d99;
+	color: #ffffff;
+}
+
+.laka3d-kpis .laka3d-nodata {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--l3-muted);
+}
+
+.laka3d-kpis .laka3d-stale {
+	color: var(--l3-muted);
+}
+
+.laka3d-kpis em {
+	font-style: normal;
+	font-size: 11px;
+}
+
+/* ------------------------------------------------------------------ v0.8.4 — selector múltiple estilo Zabbix */
+
+.laka3d-ms-form {
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	gap: 6px 10px;
+	align-items: start;
+	margin-bottom: 8px;
+}
+
+.laka3d-ms-row {
+	display: contents;
+}
+
+.laka3d-ms-label {
+	color: var(--l3-muted);
+	text-align: right;
+	padding-top: 6px;
+	white-space: nowrap;
+}
+
+.laka3d-ms {
+	display: flex;
+	gap: 6px;
+	align-items: flex-start;
+	min-width: 0;
+}
+
+.laka3d-ms-box {
+	position: relative;
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	background: var(--l3-bg-soft);
+	border: 1px solid var(--l3-border);
+	border-radius: 2px;
+	min-height: 30px;
+	box-sizing: border-box;
+}
+
+.laka3d-ms-box:focus-within {
+	border-color: var(--l3-muted);
+}
+
+.laka3d-ms-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3px;
+	list-style: none;
+	margin: 0;
+	padding: 3px 3px 0;
+}
+
+.laka3d-ms-list li {
+	min-width: 0;
+	max-width: 100%;
+}
+
+/* Ficha igual a la de Zabbix (subfilter-enabled). */
+.laka3d-ms-chip {
+	display: inline-flex;
+	align-items: center;
+	max-width: 100%;
+	background: var(--l3-seg-on);
+	color: var(--l3-seg-on-text);
+	border-radius: 2px;
+	line-height: 20px;
+	padding-left: 6px;
+}
+
+.laka3d-ms-chip > span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.laka3d .laka3d-ms-x {
+	border: 0;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+	font-size: 11px;
+	line-height: 20px;
+	padding: 0 6px 0 5px;
+	opacity: 0.85;
+}
+
+.laka3d .laka3d-ms-x:hover,
+.laka3d .laka3d-ms-x:focus-visible {
+	opacity: 1;
+}
+
+.laka3d-editor .laka3d-ms-box input.laka3d-ms-input {
+	border: 0;
+	background: none;
+	border-radius: 0;
+	width: 100%;
+	min-height: 26px;
+	padding: 4px 8px;
+	outline: none;
+	box-shadow: none;
+}
+
+.laka3d .laka3d-ms-select {
+	flex: 0 0 auto;
+	min-height: 30px;
+}
+
+.laka3d-ms-suggest {
+	position: absolute;
+	left: -1px;
+	right: -1px;
+	top: calc(100% + 2px);
+	z-index: 30;
+	max-height: 260px;
+	overflow: auto;
+	background: var(--l3-bg-soft);
+	border: 1px solid var(--l3-border);
+	box-shadow: var(--l3-shadow);
+}
+
+.laka3d-ms-suggest[hidden] {
+	display: none;
+}
+
+.laka3d-ms-suggest ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.laka3d-ms-suggest li {
+	padding: 6px 8px;
+	cursor: pointer;
+	color: var(--l3-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.laka3d-ms-suggest li em {
+	font-style: normal;
+	color: var(--l3-muted);
+}
+
+.laka3d-ms-suggest li.is-hover,
+.laka3d-ms-suggest li:hover {
+	background: var(--l3-ms-hover);
+}
+
+.laka3d-ms-more {
+	padding: 6px 8px;
+	color: var(--l3-muted);
+	font-weight: 600;
+}
+
+/* Ventana "Seleccionar" (como el popup de Zabbix). */
+.laka3d-msp-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 40;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 40px 12px 12px;
+	background: rgba(0, 0, 0, 0.45);
+	box-sizing: border-box;
+}
+
+.laka3d-msp {
+	display: flex;
+	flex-direction: column;
+	width: min(560px, 100%);
+	max-height: 100%;
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-border);
+	box-shadow: var(--l3-shadow);
+	border-radius: 2px;
+}
+
+.laka3d-msp-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--l3-border);
+	font-size: 14px;
+}
+
+.laka3d .laka3d-msp-x {
+	border: 0;
+	background: none;
+	color: var(--l3-muted);
+	cursor: pointer;
+	font-size: 14px;
+	padding: 2px 4px;
+}
+
+.laka3d .laka3d-msp-x:hover {
+	color: var(--l3-text);
+}
+
+.laka3d-msp-filter {
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--l3-border);
+}
+
+.laka3d-msp-filter p {
+	margin: 6px 0 0;
+}
+
+.laka3d-msp-filter input {
+	width: 260px;
+	max-width: 100%;
+}
+
+.laka3d-msp-body {
+	flex: 1 1 auto;
+	overflow: auto;
+	padding: 0 12px 10px;
+	min-height: 60px;
+}
+
+.laka3d-msp-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.laka3d-msp-table th {
+	position: sticky;
+	top: 0;
+	text-align: left;
+	font-weight: normal;
+	color: var(--l3-muted);
+	background: var(--l3-bg-solid);
+	padding: 8px 6px 6px;
+	border-bottom: 2px solid var(--l3-border);
+}
+
+.laka3d-msp-table td {
+	padding: 5px 6px;
+	border-bottom: 1px solid var(--l3-border);
+}
+
+.laka3d-msp-table tr[hidden] {
+	display: none;
+}
+
+.laka3d-msp-table tbody tr:hover td {
+	background: var(--l3-ms-hover);
+}
+
+.laka3d-msp-cb {
+	width: 22px;
+}
+
+.laka3d-msp-table a {
+	color: var(--l3-link);
+	text-decoration: none;
+}
+
+.laka3d-msp-table a:hover {
+	text-decoration: underline;
+}
+
+.laka3d-msp-foot {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	padding: 10px 12px;
+	border-top: 1px solid var(--l3-border);
+}
+
+@media (max-width: 520px) {
+	.laka3d-ms-form {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.laka3d-ms-label {
+		text-align: left;
+		padding-top: 0;
+	}
+}
+
+/* ------------------------------------------------------------------ v0.8.5 — vista detallada del rack */
+
+.laka3d-rv {
+	position: absolute;
+	inset: 0;
+	z-index: 8;
+	display: flex;
+	flex-direction: column;
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+	outline: none;
+	/* Colores del dibujo del rack (iguales en todos los temas: el hardware es oscuro). */
+	--rv-frame: #1b1f23;
+	--rv-bay: #0f1215;
+	--rv-rail: #2a2f35;
+	--rv-uline: rgba(255, 255, 255, 0.05);
+	--rv-unum: #6d7882;
+}
+
+.laka3d-rv[hidden] {
+	display: none;
+}
+
+.laka3d-rv-head {
+	display: flex;
+	align-items: center;
+	gap: 12px 18px;
+	flex-wrap: wrap;
+	padding: 10px 14px;
+	border-bottom: 1px solid var(--l3-border);
+}
+
+.laka3d-rv-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.laka3d-rv-title > div {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.laka3d-rv-title strong {
+	font-size: 15px;
+}
+
+.laka3d-rv-kpis {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	flex: 1 1 auto;
+}
+
+.laka3d-rv-kpi {
+	display: flex;
+	flex-direction: column;
+	padding: 4px 10px;
+	border: 1px solid var(--l3-border);
+	border-radius: 4px;
+	background: var(--l3-bg-soft);
+	min-width: 76px;
+}
+
+.laka3d-rv-kpi span {
+	color: var(--l3-muted);
+	font-size: 11px;
+}
+
+.laka3d-rv-kpi strong {
+	font-size: 13px;
+	white-space: nowrap;
+}
+
+.laka3d-rv-actions {
+	display: flex;
+	gap: 6px;
+	margin-left: auto;
+}
+
+.laka3d .laka3d-rv-actions .laka3d-btn {
+	min-width: 32px;
+	justify-content: center;
+}
+
+.laka3d-rv-body {
+	flex: 1 1 auto;
+	overflow: auto;
+	display: flex;
+	gap: 18px;
+	padding: 12px 14px;
+	align-items: flex-start;
+}
+
+.laka3d-rv-elevs {
+	display: flex;
+	gap: 14px;
+	flex: 0 0 auto;
+	padding: 10px;
+	border-radius: 6px;
+	background: #0b0d10;
+	border: 1px solid var(--l3-border);
+}
+
+.laka3d-rv-face svg {
+	display: block;
+	font-family: Arial, sans-serif;
+}
+
+/* Rack: marco, rieles y U. */
+.laka3d-rv .rv-frame {
+	fill: var(--rv-rail);
+	stroke: #3a4048;
+}
+
+.laka3d-rv .rv-bay {
+	fill: var(--rv-bay);
+}
+
+.laka3d-rv .rv-uline {
+	stroke: var(--rv-uline);
+}
+
+.laka3d-rv .rv-un {
+	fill: var(--rv-unum);
+	text-anchor: middle;
+	dominant-baseline: central;
+}
+
+.laka3d-rv .rv-un-strong {
+	fill: #a7b1ba;
+	font-weight: 700;
+}
+
+.laka3d-rv .rv-hole {
+	fill: #0b0d10;
+}
+
+.laka3d-rv .rv-title {
+	fill: #e8ecef;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	text-anchor: middle;
+}
+
+.laka3d-rv .rv-coltitle {
+	fill: #6d7882;
+	font-size: 10px;
+	letter-spacing: 2px;
+}
+
+.laka3d-rv .rv-other {
+	fill: rgba(255, 255, 255, 0.015);
+	stroke: #2c3238;
+	stroke-dasharray: 2 4;
+}
+
+/* Equipos. */
+.laka3d-rv .rv-dev {
+	cursor: pointer;
+	outline: none;
+}
+
+.laka3d-rv .rv-dev:hover .rv-ear,
+.laka3d-rv .rv-dev:focus-visible .rv-ear {
+	stroke: #4796c4;
+	stroke-width: 1.5;
+}
+
+.laka3d-rv .rv-ear {
+	fill: #3b4148;
+}
+
+.laka3d-rv .rv-body {
+	fill: #23282d;
+}
+
+.laka3d-rv .rv-body-light {
+	fill: #d4d8dc;
+}
+
+.laka3d-rv .rv-body-black {
+	fill: #15181b;
+}
+
+.laka3d-rv .rv-screw {
+	fill: #8a939b;
+}
+
+.laka3d-rv .rv-port {
+	fill: #07090b;
+	stroke: #4b545c;
+	stroke-width: 0.4;
+}
+
+.laka3d-rv .rv-port-dark {
+	fill: #2a2f35;
+	stroke: #7c8790;
+	stroke-width: 0.4;
+}
+
+.laka3d-rv .rv-sfp {
+	fill: #0c0f12;
+	stroke: #68737c;
+	stroke-width: 0.5;
+}
+
+.laka3d-rv .rv-sled {
+	fill: #59db8f;
+}
+
+.laka3d-rv .rv-vent {
+	stroke: #4a535b;
+	stroke-width: 0.8;
+}
+
+.laka3d-rv .rv-bay-disk {
+	fill: #343a41;
+	stroke: #4d565e;
+	stroke-width: 0.4;
+}
+
+.laka3d-rv .rv-disk-led {
+	fill: #59db8f;
+}
+
+.laka3d-rv .rv-power {
+	fill: none;
+	stroke: #7fb8e0;
+	stroke-width: 0.8;
+}
+
+.laka3d-rv .rv-brand {
+	fill: #b33a2e;
+}
+
+.laka3d-rv .rv-slot {
+	fill: #181c20;
+	stroke: #4b545c;
+	stroke-width: 0.5;
+}
+
+.laka3d-rv .rv-lcd {
+	fill: #1d4e6b;
+	stroke: #5ea5cf;
+	stroke-width: 0.5;
+}
+
+.laka3d-rv .rv-outlet {
+	fill: #0b0d10;
+	stroke: #5b656e;
+	stroke-width: 0.5;
+}
+
+.laka3d-rv .rv-finger-base {
+	fill: #3b4148;
+}
+
+.laka3d-rv .rv-finger {
+	fill: #eef1f3;
+}
+
+.laka3d-rv .rv-led {
+	stroke: #0b0d10;
+	stroke-width: 0.6;
+}
+
+.laka3d-rv .rv-alarm {
+	fill: none;
+	stroke-width: 2;
+	animation: laka3d-rv-blink 1.6s ease-in-out infinite;
+}
+
+@keyframes laka3d-rv-blink {
+	50% {
+		stroke-opacity: 0.35;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.laka3d-rv .rv-alarm {
+		animation: none;
+	}
+}
+
+/* Nombres alineados a la U. */
+.laka3d-rv .rv-label {
+	cursor: pointer;
+}
+
+.laka3d-rv .rv-label line {
+	stroke: #3a4048;
+	stroke-dasharray: 1 2;
+}
+
+.laka3d-rv .rv-label text {
+	fill: #e8ecef;
+	font-weight: 700;
+	dominant-baseline: central;
+	font-family: Consolas, 'DejaVu Sans Mono', monospace;
+}
+
+.laka3d-rv .rv-label.is-passive text {
+	fill: #7d8790;
+	font-weight: 400;
+}
+
+.laka3d-rv .rv-label:hover text {
+	fill: #4796c4;
+}
+
+/* Tabla de equipos. */
+.laka3d-rv-table {
+	flex: 1 1 420px;
+	min-width: 0;
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.laka3d-rv-tablehead {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 10px;
+	flex-wrap: wrap;
+	padding: 8px 10px;
+	border-bottom: 1px solid var(--l3-border);
+}
+
+.laka3d-rv-table table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.laka3d-rv-table th {
+	text-align: left;
+	font-weight: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+	padding: 6px 10px;
+	background: var(--l3-bg-soft);
+	white-space: nowrap;
+}
+
+.laka3d-rv-table td {
+	padding: 6px 10px;
+	border-top: 1px solid var(--l3-border);
+	white-space: nowrap;
+}
+
+.laka3d-rv-table tbody tr {
+	cursor: pointer;
+	outline: none;
+}
+
+.laka3d-rv-table tbody tr:hover td,
+.laka3d-rv-table tbody tr:focus-visible td {
+	background: var(--l3-ms-hover);
+}
+
+.laka3d-rv-table tr.is-passive td {
+	color: var(--l3-muted);
+}
+
+.laka3d-rv-u {
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+
+.laka3d-rv-u span {
+	color: var(--l3-muted);
+	font-weight: 400;
+}
+
+.laka3d-rv-name {
+	font-weight: 600;
+}
+
+.laka3d-rv-name i {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	margin-right: 8px;
+	vertical-align: 1px;
+}
+
+.laka3d-rv-chip {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 2px;
+	font-size: 11px;
+	font-weight: 700;
+	border: 1px solid var(--chip);
+	color: var(--chip);
+}
+
+.laka3d-rv-chip.is-sev {
+	background: var(--chip);
+	color: #1f2c33;
+}
+
+.laka3d-rv-chip.is-passive {
+	border-color: var(--l3-border);
+	color: var(--l3-muted);
+	font-weight: 400;
+}
+
+.laka3d-rv-foot {
+	padding: 4px 14px 6px;
+	font-size: 11px;
+	color: var(--l3-muted);
+	text-align: right;
+}
+
+.laka3d .laka3d-rv-open {
+	align-self: flex-start;
+	gap: 6px;
+}
+
+.laka3d .laka3d-rv-open svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* Widget angosto: la tabla va debajo de la elevación. */
+.laka3d.laka3d-narrow .laka3d-rv-body {
+	flex-direction: column;
+}
+
+.laka3d.laka3d-narrow .laka3d-rv-elevs {
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+.laka3d.laka3d-narrow .laka3d-rv-table {
+	flex: 0 0 auto;
+	width: 100%;
+	overflow-x: auto;
+}
+
+/* "OK" con el verde de texto del tema (contraste en el tema claro). */
+.laka3d-rv-chip.is-ok {
+	border-color: var(--l3-ok-text);
+	color: var(--l3-ok-text);
+}
+
+/* ------------------------------------------------------------------ v0.9.0 — vista detallada del equipo */
+
+.laka3d-dv-body {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 12px;
+}
+
+.laka3d-dv-faces {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 12px;
+	border-radius: 6px;
+	background: #0b0d10;
+	border: 1px solid var(--l3-border);
+}
+
+.laka3d-dv-facebar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.laka3d-dv-faces .laka3d-muted {
+	color: #8a949d;
+}
+
+.laka3d-dv-face {
+	margin: 0;
+}
+
+.laka3d-dv-face figcaption {
+	display: flex;
+	gap: 12px;
+	align-items: baseline;
+	margin-bottom: 4px;
+	color: #e8ecef;
+	font-size: 12px;
+}
+
+.laka3d-dv-face figcaption strong {
+	letter-spacing: 3px;
+}
+
+.laka3d-dv-face svg,
+.laka3d-dv-face img {
+	display: block;
+	width: 100%;
+	max-width: 1100px;
+	height: auto;
+	border-radius: 4px;
+}
+
+/* Chasis y componentes (coordenadas de 1200 × 111 por U). */
+.laka3d-dv .dv-ear {
+	fill: #3b4148;
+}
+
+.laka3d-dv .dv-body {
+	fill: #23282d;
+}
+
+.laka3d-dv .dv-body-light {
+	fill: #d4d8dc;
+}
+
+.laka3d-dv .dv-body-black {
+	fill: #15181b;
+}
+
+.laka3d-dv .dv-screw {
+	fill: #8a939b;
+}
+
+.laka3d-dv .dv-brand {
+	fill: #9aa5af;
+	font: 700 15px Arial, sans-serif;
+	letter-spacing: 1px;
+}
+
+.laka3d-dv .dv-brand.is-light {
+	fill: #3b4148;
+}
+
+.laka3d-dv .dv-empty {
+	fill: #6d7882;
+	font: 16px Arial, sans-serif;
+	text-anchor: middle;
+	dominant-baseline: central;
+}
+
+.laka3d-dv .dv-port {
+	cursor: pointer;
+	outline: none;
+}
+
+.laka3d-dv .dv-jack {
+	fill: #0b0d10;
+	stroke: #59636d;
+	stroke-width: 1.2;
+}
+
+.laka3d-dv .dv-jack-in {
+	fill: #1b2026;
+}
+
+.laka3d-dv .dv-jack-tab {
+	fill: #0b0d10;
+}
+
+.laka3d-dv .dv-cage {
+	fill: #101418;
+	stroke: #7c8790;
+	stroke-width: 1.2;
+}
+
+.laka3d-dv .dv-cage-in,
+.laka3d-dv .dv-usb-in {
+	fill: #2a3036;
+}
+
+.laka3d-dv .dv-disk {
+	fill: #343a41;
+	stroke: #4d565e;
+}
+
+.laka3d-dv .dv-disk-handle {
+	fill: #59636d;
+}
+
+.laka3d-dv .dv-disk-led {
+	fill: #59db8f;
+}
+
+.laka3d-dv .dv-psu {
+	fill: #2b3137;
+	stroke: #59636d;
+	stroke-width: 1.5;
+}
+
+.laka3d-dv .dv-psu-grill {
+	fill: none;
+	stroke: #59636d;
+	stroke-width: 2;
+	stroke-dasharray: 3 3;
+}
+
+.laka3d-dv .dv-inlet {
+	fill: #0b0d10;
+	stroke: #7c8790;
+}
+
+.laka3d-dv .dv-fan {
+	fill: #15181b;
+	stroke: #59636d;
+	stroke-width: 2;
+}
+
+.laka3d-dv .dv-fan-hub {
+	fill: #3b4148;
+}
+
+.laka3d-dv .dv-fan-blade {
+	stroke: #59636d;
+	stroke-width: 3;
+}
+
+.laka3d-dv .dv-outlet {
+	fill: #0b0d10;
+	stroke: #7c8790;
+	stroke-width: 1.2;
+}
+
+.laka3d-dv .dv-slot {
+	fill: #59636d;
+}
+
+.laka3d-dv .dv-tag,
+.laka3d-dv .dv-num {
+	fill: #9aa5af;
+	font: 12px Arial, sans-serif;
+	text-anchor: middle;
+}
+
+.laka3d-dv .dv-body-light ~ .dv-port .dv-num,
+.laka3d-dv .dv-body-light ~ .dv-port .dv-tag {
+	fill: #3b4148;
+}
+
+/* LED de estado según Zabbix: activo, caído o con falla, sin datos. */
+.laka3d-dv .dv-led {
+	fill: #3a4048;
+}
+
+.laka3d-dv .st-ok .dv-led {
+	fill: #59db8f;
+}
+
+.laka3d-dv .st-bad .dv-led {
+	fill: #e45959;
+}
+
+.laka3d-dv .st-bad .dv-jack,
+.laka3d-dv .st-bad .dv-cage,
+.laka3d-dv .st-bad .dv-psu,
+.laka3d-dv .st-bad .dv-fan {
+	stroke: #e45959;
+}
+
+.laka3d-dv .st-unk .dv-led,
+.laka3d-dv .st-nodata .dv-led {
+	fill: #97aab3;
+}
+
+.laka3d-dv .dv-port:hover .dv-jack,
+.laka3d-dv .dv-port:hover .dv-cage,
+.laka3d-dv .dv-port:hover .dv-psu,
+.laka3d-dv .dv-port:hover .dv-disk,
+.laka3d-dv .dv-port:hover .dv-outlet,
+.laka3d-dv .dv-port:hover .dv-fan,
+.laka3d-dv .dv-port:focus-visible .dv-jack {
+	stroke: #4796c4;
+	stroke-width: 2.5;
+}
+
+.laka3d-dv .dv-port.is-sel .dv-jack,
+.laka3d-dv .dv-port.is-sel .dv-cage,
+.laka3d-dv .dv-port.is-sel .dv-psu,
+.laka3d-dv .dv-port.is-sel .dv-outlet,
+.laka3d-dv .dv-port.is-sel .dv-disk,
+.laka3d-dv .dv-port.is-sel .dv-fan {
+	stroke: #ffc859;
+	stroke-width: 3.5;
+}
+
+.laka3d-dv .dv-cable {
+	stroke: #0b0d10;
+	stroke-width: 1;
+}
+
+.laka3d-dv-legend {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+	font-size: 11px;
+	color: #c4ccd2;
+}
+
+.laka3d-dv-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.laka3d-dv-legend i {
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+	display: inline-block;
+}
+
+.laka3d-dv-legend .is-ok {
+	background: #59db8f;
+}
+
+.laka3d-dv-legend .is-bad {
+	background: #e45959;
+}
+
+.laka3d-dv-legend .is-unk {
+	background: #97aab3;
+}
+
+.laka3d-dv-legend .is-cable {
+	background: #2f80ed;
+	height: 5px;
+}
+
+/* Trazado del cable. */
+.laka3d-dv-trace {
+	border: 1px solid var(--l3-border);
+	border-left: 3px solid #ffc859;
+	border-radius: 6px;
+	padding: 10px 12px;
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-dv-tracehead {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	flex-wrap: wrap;
+	align-items: flex-start;
+}
+
+.laka3d-dv-tracehead > div:first-child {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.laka3d-dv-btns {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.laka3d-dv-chain {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: 6px;
+	margin: 10px 0 6px;
+}
+
+.laka3d-dv-node {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 150px;
+	padding: 8px 10px;
+	border: 1px solid var(--l3-border);
+	border-radius: 4px;
+	background: var(--l3-bg-solid);
+}
+
+.laka3d-dv-node[data-goto] {
+	cursor: pointer;
+}
+
+.laka3d-dv-node[data-goto]:hover {
+	border-color: var(--l3-link);
+}
+
+.laka3d-dv-node.is-me {
+	border-color: #ffc859;
+}
+
+.laka3d-dv-pt {
+	font-size: 12px;
+}
+
+.laka3d-dv code,
+.laka3d-dv-trace code {
+	font-family: Consolas, 'DejaVu Sans Mono', monospace;
+	font-size: 11px;
+	color: var(--l3-link);
+	white-space: nowrap;
+}
+
+.laka3d-dv-link {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 3px;
+	min-width: 120px;
+	padding: 0 4px;
+	font-size: 11px;
+	color: var(--l3-muted);
+}
+
+.laka3d-dv-link i {
+	display: block;
+	width: 100%;
+	height: 6px;
+	border-radius: 3px;
+	border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.laka3d-dv-connect {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px dashed var(--l3-border);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.laka3d-dv-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 12px;
+}
+
+.laka3d-dv-form label {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	font-size: 11px;
+	color: var(--l3-muted);
+}
+
+.laka3d-dv-form .laka3d-dv-wide {
+	flex: 1 1 260px;
+}
+
+.laka3d-dv select,
+.laka3d-dv input[type="text"],
+.laka3d-dv input[type="number"] {
+	font: inherit;
+	color: var(--l3-text);
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-border);
+	border-radius: 2px;
+	padding: 4px 6px;
+	min-height: 28px;
+	box-sizing: border-box;
+}
+
+/* Pestañas. */
+.laka3d-dv-tabs {
+	display: flex;
+	gap: 2px;
+	border-bottom: 1px solid var(--l3-border);
+	flex-wrap: wrap;
+}
+
+.laka3d .laka3d-dv-tabs button {
+	border: 0;
+	background: none;
+	color: var(--l3-muted);
+	padding: 8px 12px;
+	cursor: pointer;
+	font: inherit;
+	font-weight: 600;
+	border-bottom: 2px solid transparent;
+}
+
+.laka3d .laka3d-dv-tabs button[aria-selected="true"] {
+	color: var(--l3-text);
+	border-bottom-color: var(--l3-link);
+}
+
+.laka3d-dv-tab h4 {
+	margin: 12px 0 6px;
+}
+
+.laka3d-dv-tablewrap {
+	overflow-x: auto;
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+}
+
+.laka3d-dv-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.laka3d-dv-table th {
+	text-align: left;
+	font-weight: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+	padding: 6px 10px;
+	background: var(--l3-bg-soft);
+	white-space: nowrap;
+}
+
+.laka3d-dv-table td {
+	padding: 6px 10px;
+	border-top: 1px solid var(--l3-border);
+	white-space: nowrap;
+}
+
+.laka3d-dv-table tbody tr {
+	cursor: pointer;
+}
+
+.laka3d-dv-table tbody tr:hover td {
+	background: var(--l3-ms-hover);
+}
+
+.laka3d-dv-table tr.is-sel td {
+	background: var(--l3-ms-hover);
+	box-shadow: inset 0 0 0 9999px rgba(255, 200, 89, 0.08);
+}
+
+.laka3d-dv-sw {
+	display: inline-block;
+	width: 14px;
+	height: 6px;
+	border-radius: 2px;
+	margin-right: 6px;
+	vertical-align: 1px;
+}
+
+.laka3d-dv-st {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 2px;
+	font-size: 11px;
+	font-weight: 700;
+	border: 1px solid var(--l3-border);
+	color: var(--l3-muted);
+}
+
+.laka3d-dv-st.st-ok {
+	border-color: var(--l3-ok-text);
+	color: var(--l3-ok-text);
+}
+
+.laka3d-dv-st.st-bad {
+	border-color: #e45959;
+	background: #e45959;
+	color: #ffffff;
+}
+
+.laka3d-dv-chips {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.laka3d-dv-fs {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: wrap;
+	margin: 10px 0;
+}
+
+.laka3d-dv-fs input {
+	width: 80px;
+}
+
+.laka3d-dv-ok {
+	color: var(--l3-ok-text);
+}
+
+.laka3d-dv-warn {
+	color: #e97659;
+}
+
+.laka3d-dv-health {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 16px;
+}
+
+.laka3d-dv-bar {
+	display: grid;
+	grid-template-columns: minmax(80px, 140px) 1fr auto;
+	align-items: center;
+	gap: 8px;
+	margin: 6px 0;
+}
+
+.laka3d-dv-bar span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--l3-muted);
+}
+
+.laka3d-dv-bar em {
+	grid-column: 2 / 4;
+	font-style: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+	margin-top: -4px;
+}
+
+.laka3d-dv-list {
+	margin: 4px 0;
+	padding-left: 18px;
+}
+
+.laka3d-dv-inv {
+	max-width: 720px;
+}
+
+.laka3d-dv-prof {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+	margin: 8px 0;
+}
+
+.laka3d-dv-prof fieldset {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+	padding: 8px 10px;
+	margin: 0;
+	flex: 1 1 360px;
+}
+
+.laka3d-dv-prof label {
+	display: flex;
+	flex-direction: column;
+	font-size: 11px;
+	color: var(--l3-muted);
+	gap: 2px;
+}
+
+.laka3d-dv-prof input {
+	width: 76px;
+}
+
+.laka3d-dv-photos {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 12px;
+}
+
+.laka3d-dv-photo {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.laka3d-dv-photo img {
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+	border: 1px solid var(--l3-border);
+}
+
+.laka3d-dv-nophoto {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	aspect-ratio: 1200 / 111;
+	min-height: 36px;
+	border: 1px dashed var(--l3-border);
+	border-radius: 4px;
+	color: var(--l3-muted);
+	font-size: 12px;
+}
+
+.laka3d-dv .laka3d-ed-msg {
+	margin: 8px 14px 0;
+}
+
+.laka3d .laka3d-rv-actions a.laka3d-btn {
+	text-decoration: none;
+}
+
+.laka3d-ed-msg-ok {
+	border-color: var(--l3-ok-text);
+	color: var(--l3-ok-text);
+}
+
+/* ------------------------------------------------------------------ v0.10.0 — configuración de equipos, patch panels y normas */
+
+.laka3d-ed-config {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px dashed var(--l3-border);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.laka3d-ed-pcsum {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	align-items: flex-start;
+}
+
+.laka3d-ed-parts summary {
+	cursor: pointer;
+	font-weight: 600;
+	padding: 4px 0;
+}
+
+.laka3d-ed-partstab {
+	border-collapse: collapse;
+}
+
+.laka3d-ed-partstab th {
+	font-weight: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+	text-align: left;
+	padding: 2px 6px;
+}
+
+.laka3d-ed-partstab td {
+	padding: 2px 6px;
+}
+
+/* Configurador de patch panel. */
+.laka3d-pc {
+	margin-top: 12px;
+}
+
+.laka3d-pc .laka3d-ed-cardhead {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.laka3d-pc .laka3d-ed-cardhead .laka3d-x {
+	margin-left: auto;
+}
+
+.laka3d-pc code {
+	font-family: Consolas, 'DejaVu Sans Mono', monospace;
+	font-size: 12px;
+	color: var(--l3-link);
+}
+
+.laka3d-pc-props {
+	flex-wrap: wrap;
+}
+
+.laka3d-pc-mapbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	margin: 10px 0 6px;
+}
+
+/* Mapa de puertos: frente del panel, grupos de 6 como en un panel real. */
+.laka3d-pc-map {
+	display: grid;
+	gap: 4px;
+	padding: 10px;
+	border-radius: 4px;
+	background: #15181b;
+	border: 1px solid #3b4148;
+	max-width: 1100px;
+}
+
+.laka3d .laka3d-pc-port {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 36px;
+	min-height: 36px;
+	padding: 0;
+	border: 1px solid #59636d;
+	border-radius: 3px;
+	background: #0b0d10;
+	color: #c4ccd2;
+	cursor: pointer;
+	font-size: 11px;
+}
+
+.laka3d-pc-port span {
+	line-height: 1;
+}
+
+.laka3d-pc-port i {
+	position: absolute;
+	left: 4px;
+	right: 4px;
+	height: 4px;
+	border-radius: 2px;
+}
+
+.laka3d-pc-port i.f {
+	top: 3px;
+}
+
+.laka3d-pc-port i.r {
+	bottom: 3px;
+}
+
+.laka3d-pc-map.is-fiber .laka3d-pc-port {
+	border-color: #00b3a4;
+}
+
+.laka3d .laka3d-pc-port:hover {
+	border-color: #4796c4;
+}
+
+.laka3d .laka3d-pc-port.is-sel {
+	border: 2px solid #ffc859;
+	color: #ffffff;
+}
+
+.laka3d .laka3d-pc-port.pst-r {
+	box-shadow: inset 0 0 0 2px #ffa059;
+}
+
+.laka3d .laka3d-pc-port.pst-d {
+	background: #5a1f1f;
+	box-shadow: inset 0 0 0 2px #e45959;
+}
+
+.laka3d-pc-legend {
+	display: flex;
+	gap: 14px;
+	flex-wrap: wrap;
+	font-size: 11px;
+	color: var(--l3-muted);
+	margin: 6px 0 10px;
+}
+
+.laka3d-pc-legend span {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.laka3d-pc-legend i {
+	display: inline-block;
+	width: 14px;
+	height: 6px;
+	border-radius: 2px;
+}
+
+.laka3d-pc-legend i.f {
+	background: #2f80ed;
+}
+
+.laka3d-pc-legend i.r {
+	background: #f2c94c;
+}
+
+.laka3d-pc-legend i.pst-r {
+	background: transparent;
+	border: 2px solid #ffa059;
+	height: 8px;
+}
+
+.laka3d-pc-legend i.pst-d {
+	background: #5a1f1f;
+	border: 2px solid #e45959;
+	height: 8px;
+}
+
+.laka3d-pc-edit {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px;
+	border: 1px solid var(--l3-border);
+	border-left: 3px solid #ffc859;
+	border-radius: 6px;
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-pc-edit fieldset {
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+	padding: 8px 10px;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.laka3d-pc-edit legend {
+	padding: 0 4px;
+	font-weight: 600;
+}
+
+.laka3d-pc-edit .laka3d-ed-props {
+	flex-wrap: wrap;
+}
+
+.laka3d-pc-wide input {
+	width: 280px;
+	max-width: 100%;
+}
+
+.laka3d-pc-cur {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.laka3d-pc-cur th {
+	text-align: left;
+	font-weight: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+	padding: 4px 8px;
+}
+
+.laka3d-pc-cur td {
+	padding: 4px 8px;
+	border-top: 1px solid var(--l3-border);
+}
+
+.laka3d-pc-norm {
+	margin-top: 8px;
+}
+
+/* Normas. */
+.laka3d-nm-sum {
+	display: flex;
+	gap: 8px;
+	margin: 8px 0 12px;
+	flex-wrap: wrap;
+}
+
+.laka3d-nm-chip {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 2px;
+	font-size: 11px;
+	font-weight: 700;
+	background: var(--chip);
+	color: #1f2c33;
+	white-space: nowrap;
+}
+
+.laka3d-nm-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.laka3d-nm-item {
+	display: grid;
+	grid-template-columns: 110px 1fr auto;
+	gap: 10px;
+	align-items: start;
+	padding: 8px 10px;
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-nm-item > div {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.laka3d-nm-item em {
+	font-style: normal;
+	font-size: 11px;
+	color: var(--l3-muted);
+}
+
+.laka3d-nm-refs {
+	margin-top: 14px;
+}
+
+.laka3d-nm-refs ul {
+	margin: 0;
+	padding-left: 18px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.laka3d-dv .pst-r.dv-port .dv-jack,
+.laka3d-dv .pst-r.dv-port .dv-cage {
+	stroke: #ffa059;
+	stroke-width: 3;
+}
+
+.laka3d-dv .pst-d.dv-port .dv-jack,
+.laka3d-dv .pst-d.dv-port .dv-cage {
+	fill: #5a1f1f;
+	stroke: #e45959;
+	stroke-width: 3;
+}
+
+.laka3d-dv .dv-lc {
+	fill: #00b3a4;
+	opacity: 0.75;
+}
+
+.laka3d-dv-st.pst-r {
+	border-color: #ffa059;
+	color: #ffa059;
+}
+
+.laka3d-dv-st.pst-d {
+	border-color: #e45959;
+	background: #e45959;
+	color: #ffffff;
+}
+
+.laka3d.laka3d-narrow .laka3d-nm-item {
+	grid-template-columns: 1fr;
+}
+
+/* ------------------------------------------------------------------ v0.11.0 — reportes */
+
+.laka3d-report-btn,
+.laka3d-ops-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 34px;
+	padding: 0 10px;
+	border-radius: 8px;
+	border: 1px solid var(--l3-border);
+	background: var(--l3-bg);
+	backdrop-filter: blur(6px);
+	color: var(--l3-text);
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.laka3d .laka3d-report-btn,
+.laka3d .laka3d-ops-btn {
+	height: 34px;
+}
+
+.laka3d-report-btn svg,
+.laka3d-ops-btn svg {
+	width: 16px;
+	height: 16px;
+	flex: 0 0 auto;
+}
+
+.laka3d-report-btn:hover,
+.laka3d-ops-btn:hover {
+	border-color: var(--l3-muted);
+}
+
+.laka3d.laka3d-narrow .laka3d-report-btn span,
+.laka3d.laka3d-narrow .laka3d-ops-btn span {
+	display: none;
+}
+
+.laka3d.is-noc .laka3d-report-btn,
+.laka3d.is-noc .laka3d-ops-btn {
+	display: none;
+}
+
+.laka3d-rp-overlay[hidden] {
+	display: none;
+}
+
+.laka3d-rp-overlay {
+	z-index: 12;
+}
+
+.laka3d-rp {
+	width: min(620px, 100%);
+	outline: none;
+}
+
+.laka3d-rp-body {
+	padding: 10px 14px;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.laka3d-rp-body fieldset {
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+	padding: 8px 12px;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.laka3d-rp-body legend {
+	padding: 0 4px;
+	font-weight: 600;
+}
+
+.laka3d-rp-check {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+	cursor: pointer;
+}
+
+.laka3d-rp-check input {
+	margin-top: 3px;
+}
+
+.laka3d-rp-rack {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-left: 24px;
+}
+
+.laka3d-rp-rack select {
+	font: inherit;
+	color: var(--l3-text);
+	background: var(--l3-bg-solid);
+	border: 1px solid var(--l3-border);
+	border-radius: 2px;
+	padding: 4px 6px;
+}
+
+.laka3d-rp-foot {
+	flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------ v0.12.0 — seguridad, incendio, ambiente y tierra */
+
+.laka3d-ed-palgroups {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 18px;
+}
+
+.laka3d-ed-palgroup {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.laka3d-ed-palgroup > span {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+.laka3d-ed-palgroup > div {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+/* Símbolos en el plano: círculo con letra; los del techo, con borde punteado. */
+.laka3d-pl-obj circle {
+	fill: var(--l3-bg-solid);
+	stroke: var(--l3-muted);
+	stroke-width: 0.03;
+}
+
+.laka3d-pl-obj circle.is-ceiling {
+	stroke-dasharray: 0.06 0.04;
+}
+
+.laka3d-pl-glyph {
+	font: 700 0.2px Arial, sans-serif;
+	fill: var(--l3-text);
+	text-anchor: middle;
+	pointer-events: none;
+}
+
+.laka3d-pl-access circle,
+.laka3d-pl-camera circle,
+.laka3d-pl-motion circle {
+	stroke: #4796c4;
+}
+
+.laka3d-pl-smoke circle,
+.laka3d-pl-vesda circle,
+.laka3d-pl-firepanel circle,
+.laka3d-pl-extinguisher circle,
+.laka3d-pl-epo circle {
+	stroke: #e45959;
+}
+
+.laka3d-pl-light circle {
+	stroke: #59db8f;
+}
+
+.laka3d-pl-ground circle {
+	stroke: #b87333;
+}
+
+.laka3d-pl-fov {
+	fill: rgba(71, 150, 196, 0.12);
+	stroke: rgba(71, 150, 196, 0.45);
+	stroke-width: 0.02;
+	pointer-events: none;
+}
+
+.laka3d-pl-suppression rect {
+	fill: rgba(228, 89, 89, 0.35);
+	stroke: #e45959;
+}
+
+.laka3d-pl-leak rect {
+	fill: #ffc859;
+	stroke: #ffc859;
+}
+
+.laka3d-pl-obj.is-selected circle {
+	stroke: #ffc859;
+	stroke-width: 0.05;
+}
+
+/* ---------------------------------------------------------------- v0.12.3: identificación de la sala (FS) */
+.laka3d-ed-fs .laka3d-ed-num {
+	width: 64px;
+	text-transform: uppercase;
+}
+
+.laka3d-ed-fs-id code,
+.laka3d-ed-fs-ex code,
+.laka3d-tia {
+	font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+	padding: 1px 6px;
+	border-radius: 2px;
+	background: rgba(71, 150, 196, 0.16);
+	color: inherit;
+	font-weight: 700;
+}
+
+.laka3d-ed-fs-ex {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 18px;
+	margin-top: 6px;
+}
+
+.laka3d-tia {
+	margin-left: 6px;
+	font-size: 0.85em;
+	font-weight: 400;
+}
+
+/* ---------------------------------------------------------------- v0.13.0: racks de pared */
+.laka3d-ed-wallracks .laka3d-ed-cardhead {
+	flex-wrap: wrap;
+	gap: 4px 12px;
+}
+
+.laka3d-ed-rack.laka3d-ed-wall {
+	border-style: solid;
+	border-left-width: 3px;
+}
+
+.laka3d-pl-wallrack rect {
+	stroke-dasharray: 0.06 0.04;
+}
+
+.laka3d-pl-wallrack.is-selected rect {
+	stroke-width: 0.05;
+}
+
+/* ---------------------------------------------------------------- v0.14.0: coordenadas y país del mapa */
+.laka3d-site-coords {
+	display: flex;
+	gap: 6px;
+	margin-top: 6px;
+}
+
+.laka3d-site-coords input,
+.laka3d-ed-coords {
+	flex: 1;
+	min-width: 0;
+	width: 190px;
+	font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+	font-size: 12px;
+}
+
+.laka3d-site-latlon {
+	font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+	font-size: 11px;
+}
+
+.laka3d-sites-setup,
+.laka3d-sites-ask {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 8px 14px;
+	padding: 10px 12px;
+	margin-bottom: 10px;
+	border-radius: 2px;
+	border: 1px solid var(--l3-link);
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-sites-ask {
+	align-items: center;
+}
+
+.laka3d-sites-setup label {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.laka3d-sites-setup select {
+	min-width: 220px;
+}
+
+.laka3d-sites-setup .laka3d-muted {
+	flex-basis: 100%;
+}
+
+/* El contorno del país va sobre la máscara y bajo los marcadores. */
+.laka3d-sites-map .laka3d-geo-outline {
+	filter: drop-shadow(0 0 4px rgba(71, 150, 196, 0.6));
+}
+
+/* ---------------------------------------------------------------- v0.15.0: conexión de red de los elementos de la sala */
+.laka3d-net-path {
+	list-style: none;
+	margin: 6px 0 0;
+	padding: 0;
+}
+
+.laka3d-net-path li {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	min-height: 22px;
+}
+
+.laka3d-net-path li > div {
+	padding: 2px 0;
+	line-height: 1.35;
+}
+
+.laka3d-net-path code,
+.laka3d-ed-objnet code {
+	font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+	font-size: 11px;
+}
+
+/* Punto de cada equipo y tramo de cable con su color. */
+.laka3d-net-dot {
+	flex: 0 0 10px;
+	width: 10px;
+	height: 10px;
+	margin: 5px 0 0 2px;
+	border-radius: 50%;
+	border: 2px solid var(--l3-link);
+	background: var(--l3-bg-solid);
+}
+
+.laka3d-net-dot.is-start {
+	background: var(--l3-link);
+}
+
+.laka3d-net-cable {
+	flex: 0 0 4px;
+	width: 4px;
+	align-self: stretch;
+	min-height: 22px;
+	margin-left: 5px;
+	margin-right: 3px;
+	border-radius: 2px;
+}
+
+.laka3d-linkbtn {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--l3-link);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.laka3d-linkbtn:hover {
+	text-decoration: underline;
+}
+
+.laka3d-ed-objnet {
+	margin-top: 10px;
+	padding: 8px 10px;
+	border: 1px solid var(--l3-border);
+	border-radius: 2px;
+}
+
+.laka3d-ed-objnet legend {
+	padding: 0 4px;
+	font-weight: 700;
+}
+
+.laka3d-ed-objnet-path {
+	margin: 0 0 8px;
+	line-height: 1.5;
+}
+
+.laka3d-ed-objnet-warn {
+	margin: 6px 0;
+	color: #e45959;
+}
+
+/* ---------------------------------------------------------------- v0.16.0: cadena eléctrica A/B */
+.laka3d-pw-feed {
+	display: inline-block;
+	min-width: 18px;
+	margin-right: 6px;
+	padding: 0 4px;
+	border-radius: 2px;
+	color: #ffffff;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 16px;
+	text-align: center;
+}
+
+.laka3d-pw-tree,
+.laka3d-pw-tree ul {
+	list-style: none;
+	margin: 0;
+	padding-left: 14px;
+}
+
+.laka3d-pw-tree {
+	padding-left: 0;
+}
+
+.laka3d-pw-tree li {
+	margin: 4px 0;
+}
+
+.laka3d-pw-tree ul {
+	border-left: 1px dashed var(--l3-border);
+	margin-left: 9px;
+}
+
+.laka3d-pw-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
+
+.laka3d-pw-form select {
+	flex: 1;
+	min-width: 180px;
+}
+
+.laka3d-pw-sim {
+	margin-top: 8px;
+	padding: 8px 10px;
+	border: 1px solid var(--l3-border);
+	border-radius: 2px;
+}
+
+.laka3d-pw-sim p {
+	margin: 4px 0;
+	line-height: 1.45;
+}
+
+.laka3d-pw-st {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin-right: 6px;
+	border-radius: 2px;
+	vertical-align: -1px;
+}
+
+.laka3d-ed-pw {
+	margin-top: 10px;
+	padding: 8px 10px;
+	border: 1px solid var(--l3-border);
+	border-radius: 2px;
+}
+
+.laka3d-ed-pw legend {
+	padding: 0 4px;
+	font-weight: 700;
+}
+
+/* ---------------------------------------------------------------- v0.17.0: validación LLDP / CDP */
+.laka3d-lldp .laka3d-ed-cardhead {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.laka3d-lldp h5 {
+	margin: 12px 0 4px;
+	font-size: 12px;
+}
+
+.laka3d-lldp-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.laka3d-lldp-list li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 4px 12px;
+	padding: 6px 0;
+	border-bottom: 1px solid var(--l3-border);
+}
+
+.laka3d-lldp-list li > span {
+	line-height: 1.45;
+}
+
+.laka3d-lldp-list code {
+	font-family: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+	font-size: 11px;
+}
+
+.laka3d-lldp details {
+	margin-top: 8px;
+}
+
+.laka3d-lldp summary {
+	cursor: pointer;
+	color: var(--l3-link);
+}
+
+/* ---------------------------------------------------------------- v0.18.0: PUE y ambiente ASHRAE */
+.laka3d-pue {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin: 6px 0;
+}
+
+.laka3d-pue-big {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 86px;
+	padding: 8px 10px;
+	border: 2px solid var(--pue);
+	border-radius: 2px;
+}
+
+.laka3d-pue-big strong {
+	color: var(--pue);
+	font-size: 26px;
+	line-height: 1.1;
+}
+
+.laka3d-pue-big span {
+	font-size: 11px;
+	opacity: 0.8;
+}
+
+.laka3d-pue-detail {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2px 14px;
+	font-size: 12px;
+}
+
+.laka3d-pue-chart {
+	display: block;
+	width: 100%;
+	height: 60px;
+	margin: 6px 0 2px;
+}
+
+.laka3d-amb-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.laka3d-amb-list li {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 3px 0;
+}
+
+.laka3d-amb-list li > span:last-child {
+	margin-left: auto;
+	font-variant-numeric: tabular-nums;
+}
+
+.laka3d-ed-checks {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 16px;
+	margin-top: 4px;
+}
+
+.laka3d-ed-check {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* ---------------------------------------------------------------- v0.19.0: almacenamiento (MySQL / PostgreSQL) */
+.laka3d-ed-storage {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 12px;
+	margin: 14px 0 4px;
+	font-size: 12px;
+}
+
+.laka3d-ed-storage-bar {
+	position: relative;
+	width: 160px;
+	height: 6px;
+	border-radius: 3px;
+	background: var(--l3-border);
+	overflow: hidden;
+}
+
+.laka3d-ed-storage-bar i {
+	position: absolute;
+	inset: 0 auto 0 0;
+	background: #59db8f;
+}
+
+.laka3d-ed-storage.is-warn .laka3d-ed-storage-bar i {
+	background: #ffc859;
+}
+
+.laka3d-ed-storage.is-bad .laka3d-ed-storage-bar i {
+	background: #e45959;
+}
+
+
+/* ---------------------------------------------------------------- v0.20.0 · Estilo de colores "Vivo" */
+/* Se elige en la configuración del widget. Los temas de alto contraste (hc-light, hc-dark) no cambian. */
+
+/* Vivo sobre temas claros (blue-theme, blue-classic-theme) */
+html:not([theme^="dark"]):not([theme^="hc-"]) .laka3d[data-style="vivid"] {
+	--l3-bg: rgba(255, 255, 255, 0.96);
+	--l3-bg-solid: #ffffff;
+	--l3-bg-soft: #eaf3fe;
+	--l3-border: #9cc3ee;
+	--l3-text: #0d2440;
+	--l3-muted: #4f6f93;
+	--l3-accent: #0a84ff;
+	--l3-accent-hover: #0068d6;
+	--l3-accent-text: #ffffff;
+	--l3-link: #0a6fe0;
+	--l3-seg-on: linear-gradient(135deg, #0a84ff, #7c4dff);
+	--l3-seg-on-text: #ffffff;
+	--l3-ok-text: #12a85f;
+	--l3-ms-hover: #dcebfd;
+	--l3-shadow: 0 0 0 1px rgba(10, 132, 255, 0.25), 0 10px 28px rgba(13, 36, 64, 0.2);
+	--l3-glow: rgba(10, 132, 255, 0.25);
+}
+
+/* Vivo sobre temas oscuros (dark-theme, dark-classic-theme, dark-blue-theme) */
+html[theme^="dark"] .laka3d[data-style="vivid"] {
+	--l3-bg: rgba(8, 14, 30, 0.94);
+	--l3-bg-solid: #0a1124;
+	--l3-bg-soft: #13203d;
+	--l3-border: #1d4f8f;
+	--l3-text: #eef7ff;
+	--l3-muted: #8db4dc;
+	--l3-accent: #00a3ff;
+	--l3-accent-hover: #0088e0;
+	--l3-accent-text: #ffffff;
+	--l3-link: #3cc8ff;
+	--l3-seg-on: linear-gradient(135deg, #00a3ff, #7c4dff);
+	--l3-seg-on-text: #ffffff;
+	--l3-ok-text: #22e58a;
+	--l3-ms-hover: #182a4f;
+	--l3-shadow: 0 0 0 1px rgba(0, 163, 255, 0.35), 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 163, 255, 0.18);
+	--l3-glow: rgba(0, 163, 255, 0.35);
+}
+
+/* Detalles comunes del estilo vivo */
+html:not([theme^="hc-"]) .laka3d[data-style="vivid"] .laka3d-panel {
+	border-top: 3px solid var(--l3-accent);
+	box-shadow: var(--l3-shadow);
+}
+
+html:not([theme^="hc-"]) .laka3d[data-style="vivid"] .laka3d-btn-primary {
+	background: linear-gradient(135deg, var(--l3-accent), #0062ff);
+	border-color: transparent;
+}
+
+html:not([theme^="hc-"]) .laka3d[data-style="vivid"] .laka3d-btn:hover:not(:disabled),
+html:not([theme^="hc-"]) .laka3d[data-style="vivid"] .laka3d-btn:focus-visible {
+	box-shadow: 0 0 0 3px var(--l3-glow);
+}
+
+/* ---------------------------------------------------------------- v0.21.0 · Historial, permiso por sala y respaldo */
+
+.laka3d-ed-histlist {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	max-height: 360px;
+	overflow: auto;
+}
+
+.laka3d-ed-histrow {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 8px 10px;
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+	background: var(--l3-bg-soft);
+}
+
+.laka3d-ed-histrow.is-undone {
+	opacity: 0.6;
+}
+
+.laka3d-ed-histchips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.laka3d-badge {
+	display: inline-block;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 600;
+	background: var(--l3-accent);
+	color: var(--l3-accent-text);
+}
+
+.laka3d-badge-muted {
+	background: var(--l3-bg-soft);
+	color: var(--l3-muted);
+	border: 1px solid var(--l3-border);
+}
+
+.laka3d-ed-grouplist {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 4px 12px;
+	max-height: 200px;
+	overflow: auto;
+	padding: 6px;
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+}
+
+.laka3d-ed-grouplist label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.laka3d-ed-preview {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 10px;
+	border: 1px dashed var(--l3-link);
+	border-radius: 8px;
+}
+
+.laka3d-ed-table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 12px;
+}
+
+.laka3d-ed-table th,
+.laka3d-ed-table td {
+	padding: 3px 8px;
+	border-bottom: 1px solid var(--l3-border);
+	text-align: left;
+}
+
+.laka3d-ed-table td + td,
+.laka3d-ed-table th + th {
+	text-align: right;
+}
+
+.laka3d-ed-radio {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.laka3d-ed-error {
+	color: var(--l3-bad, #e45959);
+	font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- v0.22.0 · Operación: órdenes, ciclo de vida y QR */
+
+.laka3d-ops {
+	width: min(980px, 100%);
+	max-height: calc(100% - 24px);
+	outline: none;
+	display: flex;
+	flex-direction: column;
+}
+
+.laka3d-ops .laka3d-ed-tabs {
+	padding: 0 14px;
+}
+
+.laka3d-ops-body {
+	padding: 10px 14px;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	min-height: 0;
+}
+
+.laka3d-ops-foot {
+	padding: 6px 14px;
+	border-top: 1px solid var(--l3-border);
+	font-size: 11px;
+	text-align: right;
+}
+
+.laka3d-ops-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.laka3d-ops-card {
+	border: 1px solid var(--l3-border);
+	border-left: 4px solid var(--l3-link);
+	border-radius: 8px;
+	padding: 8px 10px;
+	background: var(--l3-bg-soft);
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.laka3d-ops-card.st-progress {
+	border-left-color: #ffa059;
+}
+
+.laka3d-ops-card.st-done {
+	border-left-color: #59db8f;
+	opacity: 0.85;
+}
+
+.laka3d-ops-card.st-cancelled {
+	border-left-color: var(--l3-muted);
+	opacity: 0.7;
+}
+
+.laka3d-ops-card.is-focus {
+	box-shadow: 0 0 0 2px var(--l3-link);
+}
+
+.laka3d-ops-cardhead {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+}
+
+.laka3d-ops-notes {
+	white-space: pre-wrap;
+	font-size: 12px;
+}
+
+.laka3d-ops-card svg,
+.laka3d-ops-rack svg,
+.laka3d-chip svg {
+	width: 14px;
+	height: 14px;
+	vertical-align: -2px;
+}
+
+.laka3d-ops-form {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.laka3d-ops-form label {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	font-size: 12px;
+}
+
+.laka3d-ops-form .laka3d-ed-grouplist label {
+	flex-direction: row;
+	align-items: center;
+}
+
+.laka3d-ops-form input[type="text"],
+.laka3d-ops-form input[type="datetime-local"],
+.laka3d-ops-form select,
+.laka3d-ops-form textarea {
+	min-height: 28px;
+	padding: 3px 8px;
+	border: 1px solid var(--l3-border);
+	border-radius: 6px;
+	background: var(--l3-bg-solid);
+	color: var(--l3-text);
+	font: inherit;
+}
+
+.laka3d-ops-form fieldset {
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+	padding: 6px 10px;
+}
+
+.laka3d-ops-rack {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin: 6px 0;
+}
+
+.laka3d-ops-rackbtns {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.laka3d-ops-mini {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	width: 100%;
+	text-align: left;
+	padding: 4px 8px;
+	border: 1px solid var(--l3-border);
+	border-left: 3px solid #ffa059;
+	border-radius: 6px;
+	background: var(--l3-bg-soft);
+	color: var(--l3-text);
+	cursor: pointer;
+}
+
+.laka3d-ops-mini .laka3d-badge {
+	margin-left: auto;
+}
+
+/* Ciclo de vida: colores de severidad de Zabbix (Desastre, Promedio) y verde OK. */
+.laka3d-lf {
+	display: inline-block;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 600;
+	color: #1f2c33;
+	background: #97aab3;
+}
+
+.laka3d-lf-expired {
+	background: #e45959;
+	color: #fff;
+}
+
+.laka3d-lf-soon {
+	background: #ffa059;
+}
+
+.laka3d-lf-ok {
+	background: #59db8f;
+}
+
+.laka3d-ops-qr {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 300px;
+	gap: 14px;
+}
+
+.laka3d-ops-qr fieldset {
+	border: 1px solid var(--l3-border);
+	border-radius: 8px;
+	padding: 6px 10px;
+	margin: 0 0 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.laka3d-ops-qrprev {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+/* Vista previa de la etiqueta: siempre blanca y negra, como se imprime. */
+.laka3d-qr-label {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	padding: 6px;
+	background: #fff;
+	color: #000;
+	border: 1px dashed #999;
+	border-radius: 4px;
+	width: 280px;
+}
+
+.laka3d-qr-label.size-s {
+	width: 220px;
+}
+
+.laka3d-qr-label div {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	font-size: 11px;
+}
+
+.laka3d-qr-label strong {
+	font-size: 14px;
+}
+
+@media (max-width: 760px) {
+	.laka3d-ops-qr {
+		grid-template-columns: 1fr;
+	}
+}
+
+.laka3d-ops-btn[hidden],
+.laka3d-ops-overlay[hidden] {
+	display: none;
+}
+
+.laka3d-ops-life td,
+.laka3d-ops-life th,
+.laka3d-ops-life td + td,
+.laka3d-ops-life th + th {
+	text-align: left;
+}
+
+/* ---------------------------------------------------------------- v0.23.0 · Pronóstico, indicadores ISO/IEC 30134 y redundancia */
+
+.laka3d-fc-room {
+	display: flex;
+	gap: 8px;
+	align-items: flex-start;
+	margin: 4px 0;
+}
+
+.laka3d-fc-room > i {
+	flex: none;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin-top: 4px;
+}
+
+.laka3d-kpis-iso {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.laka3d-red-table td:nth-child(2) {
+	text-align: left;
+	width: 70px;
+}
+
+.laka3d-ed-energy h5 {
+	margin: 10px 0 2px;
+	font-size: 12px;
+}
