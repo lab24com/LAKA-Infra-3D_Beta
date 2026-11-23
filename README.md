@@ -6,7 +6,7 @@
 
 > ⚠️ **Versión beta.** El módulo es funcional y se probó en Zabbix 7.0, 7.4 y 8.0 con MySQL/MariaDB y PostgreSQL. Sin embargo, todavía puede tener errores y cambios entre versiones. Pruébalo primero en un entorno de laboratorio y haz un respaldo antes de usarlo en producción.
 
-![LAKA Infra 3D – vista de la sala](docs/img/estado.png)
+![LAKA Infra 3D – vista de la sala](laka_infra_3d/docs/img/estado.png)
 
 LAKA Infra 3D es un widget para tableros de Zabbix. Muestra la sala del data center en 3D, con sus filas, racks, equipos e infraestructura. Cada elemento toma su estado en vivo desde Zabbix. Está pensado para NOC y para la operación diaria de la sala.
 
@@ -40,11 +40,11 @@ LAKA Infra 3D es un widget para tableros de Zabbix. Muestra la sala del data cen
 
 **Sala abierta**: sin paredes, para recorrer la sala rack por rack.
 
-![Sala abierta](docs/img/sala-abierta.png)
+![Sala abierta](laka_infra_3d/docs/img/sala-abierta.png)
 
 **Modo NOC**: recorrido automático con indicadores y problemas activos.
 
-![Modo NOC](docs/img/noc.png)
+![Modo NOC](laka_infra_3d/docs/img/noc.png)
 
 > Las capturas usan datos de prueba.
 
