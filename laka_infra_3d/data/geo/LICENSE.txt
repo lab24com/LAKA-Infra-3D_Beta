@@ -1,0 +1,2 @@
+Límites de países: Natural Earth 1:50m (dominio público), vía world-atlas 2.0.2 (ISC, © Mike Bostock).
+Preparado para LAKA Infra 3D – © LAKA Soluciones Tecnológicas.
